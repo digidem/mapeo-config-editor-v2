@@ -56,6 +56,13 @@
 	height: 100%;
 }
 
+.actions {
+	margin-top: 35px;
+	display: flex;
+	justify-items: center;
+	justify-content: space-between;
+}
+
 .button {
 	background-color: #000;
 	border: none;

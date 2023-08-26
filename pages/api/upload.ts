@@ -8,7 +8,7 @@ import {   desconstructPresets,
   extractConfig,
   createPackageJson,
  } from 'mapeo-config-deconstructor/src/'
- import configRenderer from '../../../mapeo-config-renderer/api'
+ import configRenderer from 'mapeo-config-renderer/api'
 
 const handler = async (
   req: NextApiRequest,
