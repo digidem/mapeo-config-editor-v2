@@ -8,7 +8,7 @@ const Home = () => {
 	const reset = () => setServerUrl(null)
 	return (
 					<div className={styles.verticalcenter}>
-						{!serverUrl && <SingleFileUploadForm setServerUrl={setServerUrl} />
+						{!serverUrl && <SingleFileUploadForm />
 						}
 						{serverUrl && <div>
 							<MapeoRender serverUrl={serverUrl} />
