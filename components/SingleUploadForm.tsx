@@ -5,6 +5,7 @@ const SingleFileUploadForm = () => {
 	const router = useRouter()
 	const [file, setFile] = useState<File | null>(null);
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+	const [uploading, setUploading] = useState<boolean>(false);
 
 	const onFileUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const fileInput = e.target;
@@ -52,6 +53,8 @@ const SingleFileUploadForm = () => {
 			return;
 		}
 
+		setUploading(true);
+
 		try {
 			var formData = new FormData();
 			formData.append("media", file);
@@ -73,14 +76,17 @@ const SingleFileUploadForm = () => {
 
 			if (error || !data) {
 				alert(error || "Sorry! something went wrong.");
+				setUploading(false);
 				return;
 			}
 
 			console.log("File was uploaded successfylly:", data);
 			router.push(`/project?id=${data?.id}`)
+			setUploading(false);
 		} catch (error) {
 			console.error(error);
 			alert("Sorry! something went wrong.");
+			setUploading(false);
 		}
 	};
 
@@ -140,13 +146,17 @@ const SingleFileUploadForm = () => {
 								>
 									Cancel file
 								</button>
-								<button
-									disabled={!previewUrl}
-									onClick={onUploadFile}
-									className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
-								>
-									Upload file
-								</button>
+								{uploading ? (
+									<div>Uploading...</div>
+								) : (
+									<button
+										disabled={!previewUrl}
+										onClick={onUploadFile}
+										className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
+									>
+										Upload file
+									</button>
+								)}
 							</div>
 						</div>
 					</form>
