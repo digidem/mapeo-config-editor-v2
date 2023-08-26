@@ -14,7 +14,7 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
     data: {
-      id: string;
+      url: string;
     } | null;
     error: string | null;
   }>
@@ -30,6 +30,7 @@ const handler = async (
   // Just after the "Method Not Allowed" code
   try {
 		const hostname = os.hostname();
+		const protocol = process.env.PRODUCTION ? 'https' : 'http'
     const { fields, files } = await parseForm(req);
     const file = files.media;
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
@@ -46,11 +47,11 @@ const handler = async (
 		await desconstructSvgSprite(configFolder, outputFolder);
 		await copyFiles(configFolder, outputFolder);
 		await createPackageJson(configFolder, outputFolder);
+		configRenderer(outputFolder, randomPort)
 		console.log("Done!");
-		configRenderer(outputFolder, randomPort, true)
     res.status(200).json({
       data: {
-        id: randomPort,
+        url: `${protocol}://${hostname}:${randomPort}`,
       },
       error: null,
     });

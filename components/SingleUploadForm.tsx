@@ -81,7 +81,8 @@ const SingleFileUploadForm = () => {
 			}
 
 			console.log("File was uploaded successfylly:", data);
-			router.push(`/project?id=${data?.id}`)
+			const url = data?.url
+			router.push(`/project?url=${url}`)
 			setUploading(false);
 		} catch (error) {
 			console.error(error);

@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { useRouter } from 'next/router'
 import MapeoRender from '../components/MapeoRender'
 import styles from '../components/styles.module.css'
 
 const Project = () => {
 	const router = useRouter()
-	const serverUrl = `http://localhost:${router.query?.id}`
+	const serverUrl = router.query?.url
 	const reset = () => router.push('/')
 	return (
 		<div className={styles.verticalcenter}>
