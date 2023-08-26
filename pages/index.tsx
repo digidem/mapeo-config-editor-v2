@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>File uploader</title>
+        <title>Mapeo config editor</title>
         <meta name="description" content="File uploader" />
       </Head>
 
@@ -20,15 +20,9 @@ const Home: NextPage = () => {
           <div className="space-y-10">
             <div>
               <h2 className="mb-3 text-xl font-bold text-gray-900">
-                Single File Upload Form
+                Upload config file
               </h2>
               <SingleFileUploadForm />
-            </div>
-            <div>
-              <h2 className="mb-3 text-xl font-bold text-gray-900">
-                Multiple File Upload Form
-              </h2>
-              <MultipleFileUploadForm />
             </div>
           </div>
         </div>
@@ -36,7 +30,7 @@ const Home: NextPage = () => {
 
       <footer>
         <div className="w-full max-w-3xl px-3 mx-auto">
-          <p>All right reserved</p>
+          <p>Digital Democracy 2023</p>
         </div>
       </footer>
     </div>

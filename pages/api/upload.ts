@@ -20,9 +20,11 @@ const handler = async (
   }
   // Just after the "Method Not Allowed" code
   try {
+		// console.log('REQ', req)
     const { fields, files } = await parseForm(req);
-
+		console.log('FILES',  files)
     const file = files.media;
+		console.log('FILE!!!!!!!!!!!!!!', file)
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
 
     res.status(200).json({

@@ -21,10 +21,10 @@ const SingleFileUploadForm = () => {
     const file = fileInput.files[0];
 
     /** File validation */
-    if (!file.type.startsWith("image") && file.name.split('.').pop() !== 'mapeosettings') {
-      alert("Please select a valid image or .mapeosettings file");
-      return;
-    }
+    if (!file.name.endsWith('.mapeosettings')) {
+			alert("Please select a valid .mapeosettings file");
+			return;
+		}
 
     /** Setting file state */
     setFile(file); // we will use the file state, to send it later to the server
@@ -91,14 +91,15 @@ const SingleFileUploadForm = () => {
         <div className="flex-grow">
           {previewUrl ? (
             <div className="mx-auto w-80">
-              <Image
+							Config loaded
+              {/* <Image
                 alt="file uploader preview"
                 objectFit="cover"
-                src={previewUrl}
+                src=""
                 width={320}
                 height={218}
                 layout="fixed"
-              />
+              /> */}
             </div>
           ) : (
             <label className="flex flex-col items-center justify-center h-full py-3 transition-colors duration-150 cursor-pointer hover:text-gray-600">
@@ -116,7 +117,7 @@ const SingleFileUploadForm = () => {
                   d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
                 />
               </svg>
-              <strong className="text-sm font-medium">Select an image</strong>
+              <strong className="text-sm font-medium">Select a .mapeosettings file</strong>
               <input
                 className="block w-0 h-0"
                 name="file"

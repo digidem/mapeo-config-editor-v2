@@ -29,21 +29,21 @@ export const parseForm = async (
     }
 
     const form = formidable({
-      maxFiles: 10,
-      maxFileSize: 1024 * 1024 * 10, // 10mb
+      maxFiles: 1,
+      maxFileSize: 1024 * 1024 * 100, // 100mb
       uploadDir,
       filename: (_name, _ext, part) => {
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
         const filename = `${part.name || "unknown"}-${uniqueSuffix}.${
           mime.getExtension(part.mimetype || "") || "unknown"
         }`;
+        console.log("Generated filename:", filename); // Add descriptive log
         return filename;
       },
-      filter: (part) => {
-        return (
-          part.name === "media" && (part.mimetype?.includes("image") || false)
-        );
-      },
+      // filter: (part) => {
+      //   console.log("Filtering part:", part.name); // Add descriptive log
+      //   return part.name === "media" && part.mimetype === "application/mapeosettings";
+      // },
     });
 
     form.parse(req, function (err, fields, files) {
