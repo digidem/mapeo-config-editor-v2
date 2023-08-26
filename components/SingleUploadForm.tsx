@@ -21,8 +21,8 @@ const SingleFileUploadForm = () => {
     const file = fileInput.files[0];
 
     /** File validation */
-    if (file.name.split('.').pop() !== 'mapeosettings') {
-      alert("Please select a valid .mapeosettings file");
+    if (!file.type.startsWith("image") && file.name.split('.').pop() !== 'mapeosettings') {
+      alert("Please select a valid image or .mapeosettings file");
       return;
     }
 
