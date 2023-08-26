@@ -4,7 +4,7 @@ import styles from '../components/styles.module.css'
 
 const Project = () => {
 	const router = useRouter()
-	const serverUrl = router.query?.url
+	const serverUrl = Array.isArray(router.query?.url) ? router.query?.url[0] : router.query?.url;
 	const reset = () => router.push('/')
 	const build = async () => {
 		console.log('building')
@@ -25,10 +25,10 @@ const Project = () => {
 	return (
 		<div className={styles.verticalcenter}>
 			<div>
-				<MapeoRender serverUrl={serverUrl} />
+				<MapeoRender serverUrl={serverUrl || ''} />
 				<div className={styles.actions}>
-					<button className={styles.button} style={{backgroundColor: 'red'}} onClick={() => reset()}>Restart</button>
-					<button className={styles.button} style={{backgroundColor: 'green'}} onClick={() => build()}>Build</button>
+					<button className={styles.button} style={{ backgroundColor: 'red' }} onClick={() => reset()}>Restart</button>
+					<button className={styles.button} style={{ backgroundColor: 'green' }} onClick={() => build()}>Build</button>
 				</div>
 			</div>
 		</div >

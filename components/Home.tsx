@@ -1,21 +1,13 @@
-import { useState } from "react";
+import { useState, FC } from "react";
 import MapeoRender from './MapeoRender'
 import SingleFileUploadForm from "./SingleUploadForm";
 import styles from './styles.module.css'
 
-const Home = () => {
-	const [serverUrl, setServerUrl] = useState<String | null>(null);
-	const reset = () => setServerUrl(null)
+const Home: FC = () => {
 	return (
-					<div className={styles.verticalcenter}>
-						{!serverUrl && <SingleFileUploadForm />
-						}
-						{serverUrl && <div>
-							<MapeoRender serverUrl={serverUrl} />
-							<button onClick={() => reset()}>Restart</button>
-						</div>
-					}
-					</div>
+		<div className={styles.verticalcenter}>
+			<SingleFileUploadForm />
+		</div>
 	);
 };
 

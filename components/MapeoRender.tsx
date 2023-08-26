@@ -1,46 +1,54 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import io from "socket.io-client";
+import axios, { AxiosResponse } from "axios";
+import io, { Socket } from "socket.io-client";
 import styles from './styles.module.css'
 
-const fetchPresets = async (serverUrl) => {
+interface Preset {
+  name: string;
+  color: string;
+  iconPath: string;
+}
+
+const fetchPresets = async (serverUrl: string): Promise<Preset[] | null> => {
   try {
-    const response = await axios.get(`${serverUrl}/api/presets`);
+    const response: AxiosResponse<Preset[]> = await axios.get(`${serverUrl}/api/presets`);
     console.log("response", response);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Failed to fetch presets:", error);
     return null;
   }
 };
 
-const MapeoRender = ({ serverUrl }) => {
+const MapeoRender = ({ serverUrl }: { serverUrl: string }) => {
 	console.log('serverUrl', serverUrl)
-	const socket = io(serverUrl);
-  const [presets, setPresets] = useState([]);
+	const socket: Socket = io(serverUrl);
+  const [presets, setPresets] = useState<Preset[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchPresets(serverUrl);
+      const data: Preset[] | null = await fetchPresets(serverUrl);
       setPresets(data);
     };
     fetchData();
 
     // Listen for updates from the server
     socket.on("presets:update", async () => {
-      const data = await fetchPresets(serverUrl);
+      const data: Preset[] | null = await fetchPresets(serverUrl);
       setPresets(data);
     });
 
     // Clean up the effect
-    return () => socket.off("presets:update");
-  }, [serverUrl]);
+		return () => {
+			socket.off("presets:update");
+		};
+		}, [serverUrl]);
   return (
     <div className={styles.phoneouterframe}>
       <div className={styles.phoneframe}>
         <div className={styles.icongrid}>
           {presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
-          {presets && presets.map((preset, index) => (
+          {presets && presets.map((preset: Preset, index: number) => (
             <div key={`${preset.name}-${index}`} className={styles.iconcontainer}>
               <div
                 className={styles.icon}
@@ -68,3 +76,4 @@ const MapeoRender = ({ serverUrl }) => {
 };
 
 export default MapeoRender;
+

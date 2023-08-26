@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from 'path'
-import settingsBuilder from 'mapeo-settings-builder/commands/build_lint.js'
+const settingsBuilder = require('mapeo-settings-builder/commands/build_lint.js')
+
 const handler = async (
 	req: NextApiRequest,
 	res: NextApiResponse<{
@@ -47,4 +48,5 @@ const handler = async (
 }
 
 export default handler;
+
 

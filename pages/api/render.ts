@@ -20,7 +20,7 @@ const handler = async (
 	// }
 	// Just after the "Method Not Allowed" code
 	try {
-		configRenderer(outputFolder, randomPort, true)
+		// configRenderer(outputFolder, randomPort, true)
 	} catch (err) {
 		console.error(err)
 	}
