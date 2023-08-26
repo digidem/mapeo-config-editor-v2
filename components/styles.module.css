@@ -1,0 +1,75 @@
+.icongrid {
+	padding: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 3rem;
+	height: 80vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.iconcontainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.icon {
+	width: 50px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	border: 2px solid;
+}
+
+.iconname {
+	margin-top: 0.5rem;
+	max-width: 50px;
+	text-align: center;
+}
+.phoneframe {
+	padding-bottom: 60px;
+	box-sizing: border-box;
+	width: 475px;
+	border: 1px solid #000;
+	border-radius: 18px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	overflow-y: hidden;
+	margin: auto;
+	top: 10px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #fff;
+}
+
+.verticalcenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.button {
+	background-color: #000;
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.button:hover {
+	background-color: #45a049;
+}

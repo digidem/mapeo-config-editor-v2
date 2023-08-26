@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import MultipleFileUploadForm from "../components/MultipleFileUploadForm";
-import SingleFileUploadForm from "../components/SingleUploadForm";
+import Home from "../components/Home";
 
-const Home: NextPage = () => {
+const Index: NextPage = () => {
   return (
     <div>
       <Head>
@@ -12,20 +11,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="py-10">
-        <div className="w-full max-w-3xl px-3 mx-auto">
-          <h1 className="mb-10 text-3xl font-bold text-gray-900">
-            Upload your files
-          </h1>
-
-          <div className="space-y-10">
-            <div>
-              <h2 className="mb-3 text-xl font-bold text-gray-900">
-                Upload config file
-              </h2>
-              <SingleFileUploadForm />
-            </div>
-          </div>
-        </div>
+        <Home />
       </main>
 
       <footer>
@@ -37,4 +23,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Index;

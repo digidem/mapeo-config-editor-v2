@@ -1,11 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { randomUUID } from "crypto";
+import os from 'os'
 import { parseForm, FormidableError } from "../../lib/parse-form";
+import {   desconstructPresets,
+  desconstructSvgSprite,
+  copyFiles,
+  extractConfig,
+  createPackageJson,
+ } from 'mapeo-config-deconstructor/src/'
+ import configRenderer from '../../../mapeo-config-renderer/api'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
     data: {
-      url: string | string[];
+      id: string;
     } | null;
     error: string | null;
   }>
@@ -20,16 +29,28 @@ const handler = async (
   }
   // Just after the "Method Not Allowed" code
   try {
-		// console.log('REQ', req)
+		const hostname = os.hostname();
     const { fields, files } = await parseForm(req);
-		console.log('FILES',  files)
     const file = files.media;
-		console.log('FILE!!!!!!!!!!!!!!', file)
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
-
+		const projectId = randomUUID()
+		console.log("Building project", projectId);
+		const outputDir = `/tmp/mapeo-extracted-${projectId}`
+		const { configFolder, outputFolder } = await extractConfig(
+			url,
+			outputDir
+		);
+		const randomPort = Math.floor(Math.random() * (9999 - 3033 + 1)) + 3033;
+		console.log('configFolder, outputFolder', configFolder, outputFolder);
+		await desconstructPresets(configFolder, outputFolder);
+		await desconstructSvgSprite(configFolder, outputFolder);
+		await copyFiles(configFolder, outputFolder);
+		await createPackageJson(configFolder, outputFolder);
+		console.log("Done!");
+		configRenderer(outputFolder, randomPort, true)
     res.status(200).json({
       data: {
-        url,
+        id: randomPort,
       },
       error: null,
     });
