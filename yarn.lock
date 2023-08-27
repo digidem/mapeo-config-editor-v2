@@ -7685,10 +7685,10 @@ maki@^0.5.0:
   resolved "https://registry.yarnpkg.com/maki/-/maki-0.5.0.tgz#cecfe65dd8dc96078e5e5b390364f4ca04206916"
   integrity sha512-NBoRjhz0I6skUhs4CWxGu/Z80Rs2ai9TNcjR76nQW/J0KfqgYkpz7Ue25rTylRuJcJF2Ei9c8vyMkJay1qZH4g==
 
-mapeo-config-deconstructor@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/mapeo-config-deconstructor/-/mapeo-config-deconstructor-2.0.3.tgz#c881fd5d3be2b5475308a25768921c3d2447c53c"
-  integrity sha512-WzwpsaLKZsLDZkb8ueDNVGla4dpoxjLEEeFlNTx/r6bQZNUc0vLUW7Grx2vNE1aT6GIYymprzPK2HA2DCAmSoA==
+mapeo-config-deconstructor@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/mapeo-config-deconstructor/-/mapeo-config-deconstructor-2.0.4.tgz#69aa8f9ea4f0a6d559ae95c3d945e677a8c62943"
+  integrity sha512-Aw4CLstTzBeBBW6QkrmQixHsjEJD2MA70yLjohS9Q4XfBmP4RHltapM4vIEH4lHic9ggcrMJckeWOY7X9pSWFQ==
   dependencies:
     prettier "^3.0.2"
     tar "^6.1.15"

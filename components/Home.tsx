@@ -1,3 +1,4 @@
+import { FC } from "react";
 import SingleFileUploadForm from "./SingleUploadForm";
 import styles from './styles.module.css'
 
