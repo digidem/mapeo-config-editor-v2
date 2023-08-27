@@ -7685,19 +7685,19 @@ maki@^0.5.0:
   resolved "https://registry.yarnpkg.com/maki/-/maki-0.5.0.tgz#cecfe65dd8dc96078e5e5b390364f4ca04206916"
   integrity sha512-NBoRjhz0I6skUhs4CWxGu/Z80Rs2ai9TNcjR76nQW/J0KfqgYkpz7Ue25rTylRuJcJF2Ei9c8vyMkJay1qZH4g==
 
-mapeo-config-deconstructor@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/mapeo-config-deconstructor/-/mapeo-config-deconstructor-2.0.4.tgz#69aa8f9ea4f0a6d559ae95c3d945e677a8c62943"
-  integrity sha512-Aw4CLstTzBeBBW6QkrmQixHsjEJD2MA70yLjohS9Q4XfBmP4RHltapM4vIEH4lHic9ggcrMJckeWOY7X9pSWFQ==
+mapeo-config-deconstructor@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/mapeo-config-deconstructor/-/mapeo-config-deconstructor-2.0.6.tgz#f60db67518c57e566897add7bdeb88af802cf35a"
+  integrity sha512-U4LHF7FqbXUcTBaef9XQnFj5c6P20AnRwYPtMNEKSLXMWKMC4hxRgjo0ap3pvZjTQlREwHIMb4Jj+XVmlLybQw==
   dependencies:
     prettier "^3.0.2"
     tar "^6.1.15"
     xml2js "^0.6.2"
 
-mapeo-config-renderer@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/mapeo-config-renderer/-/mapeo-config-renderer-1.0.1.tgz#8ffcf4e67fe538599fc84e7e51bcf8ddb0069d74"
-  integrity sha512-7/pXluwUUGuho9gNHkAvb4tPeifexYVkywStenvO38HhfzKN05Yelr8FYitPejyhjzuTxUgrdrLavuUWNnsqyA==
+mapeo-config-renderer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mapeo-config-renderer/-/mapeo-config-renderer-1.0.2.tgz#39f360e8949946eb2dbdc92c3a782093fc9ea5a2"
+  integrity sha512-CGcoD3pxIQvM+oJrTPMt89a6HCe/a2Un1R93HsZsCaUlHqATnwO+xaEvsesFQtonIAs+i1P5rpWhphpeQAY5NQ==
   dependencies:
     "@testing-library/jest-dom" "^5.17.0"
     "@testing-library/react" "^13.4.0"

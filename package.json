@@ -1,6 +1,6 @@
 {
   "name": "mapeo-config-editor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,8 +11,8 @@
   "dependencies": {
     "date-fns": "^2.30.0",
     "formidable": "2.x",
-    "mapeo-config-deconstructor": "^2.0.4",
-    "mapeo-config-renderer": "^1.0.1",
+    "mapeo-config-deconstructor": "^2.0.6",
+    "mapeo-config-renderer": "^1.0.2",
     "mapeo-settings-builder": "^3.4.1",
     "mime": "^3.0.0",
     "next": "13.4.19",

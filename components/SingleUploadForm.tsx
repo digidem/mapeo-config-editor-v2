@@ -69,7 +69,7 @@ const SingleFileUploadForm = () => {
 				error,
 			}: {
 				data: {
-					url: string | string[];
+					id: string | string[];
 				} | null;
 				error: string | null;
 			} = await res.json();
@@ -81,8 +81,8 @@ const SingleFileUploadForm = () => {
 			}
 
 			console.log("File was uploaded successfylly:", data);
-			const url = data?.url
-			router.push(`/project?url=${url}`)
+			const id = data?.id
+			router.push(`/p?id=${id}`)
 			setUploading(false);
 		} catch (error) {
 			console.error(error);
@@ -90,10 +90,7 @@ const SingleFileUploadForm = () => {
 			setUploading(false);
 		}
 	};
-
 	return (
-
-
 		<form
 			className="w-full p-3 border border-gray-500 border-dashed"
 			onSubmit={(e) => e.preventDefault()}

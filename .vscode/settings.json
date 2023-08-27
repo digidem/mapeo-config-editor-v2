@@ -1,5 +1,7 @@
 {
   "editor.tabSize": 2,
   "editor.insertSpaces": false,
-  "editor.detectIndentation": false
+	"editor.detectIndentation": false,
+	"editor.tabCompletion": "on",
+	"diffEditor.codeLens": true
 }
