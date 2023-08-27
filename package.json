@@ -11,7 +11,7 @@
   "dependencies": {
     "date-fns": "^2.30.0",
     "formidable": "2.x",
-    "mapeo-config-deconstructor": "^2.0.2",
+    "mapeo-config-deconstructor": "^2.0.3",
     "mapeo-config-renderer": "^1.0.1",
     "mapeo-settings-builder": "^3.4.1",
     "mime": "^3.0.0",

@@ -49,7 +49,7 @@ ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-RUN chown -R nextjs:nodejs /tmp && chmod -R 775 /tmp
+RUN chown -R nextjs:nodejs /app
 
 COPY --from=builder /app/public ./public
 
