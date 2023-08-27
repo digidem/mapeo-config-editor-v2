@@ -6,6 +6,7 @@ const Project = () => {
 	const router = useRouter()
 	const serverUrl = Array.isArray(router.query?.url) ? router.query?.url[0] : router.query?.url;
 	const reset = () => router.push('/')
+	console.log('serverUrl', serverUrl)
 	const build = async () => {
 		console.log('building')
 		try {
