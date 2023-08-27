@@ -36,7 +36,8 @@ const handler = async (
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
 		const projectId = randomUUID()
 		console.log("Building project", projectId);
-		const outputDir = `/tmp/mapeo-extracted-${projectId}`
+		const rootDir = process.env.ROOT_DIR || process.cwd()
+		const outputDir = `${rootDir}/uploads/mapeo-extracted-${projectId}`
 		const { configFolder, outputFolder } = await extractConfig(
 			url,
 			outputDir
