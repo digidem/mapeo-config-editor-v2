@@ -43,23 +43,18 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-# ENV ROOT_DIR /tmp
+ENV ROOT_DIR /tmp
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-RUN chown -R nextjs:nodejs /app
 
 COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-RUN mkdir -p ./uploads && chown -R nextjs:nodejs ./uploads
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
-USER nextjs
+USER root
 
 EXPOSE 3000
 
@@ -68,4 +63,3 @@ ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]
-
