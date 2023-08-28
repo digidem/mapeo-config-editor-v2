@@ -1,9 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from 'path'
-const settingsBuilder = require('mapeo-settings-builder/commands/build_lint.js')
+const settingsBuilder = require('mapeo-settings-builder/commands/build_lint.js') as (options: { output: string }, outputDir: string) => Promise<void>;
 import getOutputDir from "../../../lib/getOutputDir";
 import fs from 'fs'
-
+function bumpVersion(version: string, bumpType: 'major' | 'minor' | 'patch' = 'patch') {
+	let versionParts = version.split('.');
+	switch(bumpType) {
+		case 'major':
+			let majorVersion = parseInt(versionParts[0]);
+			majorVersion++;
+			versionParts[0] = majorVersion.toString();
+			break;
+		case 'minor':
+			let minorVersion = parseInt(versionParts[1]);
+			minorVersion++;
+			versionParts[1] = minorVersion.toString();
+			break;
+		case 'patch':
+		default:
+			let patchVersion = parseInt(versionParts[2]);
+			patchVersion++;
+			versionParts[2] = patchVersion.toString();
+			break;
+	}
+	return versionParts.join('.');
+}
 const handler = async (
 	req: NextApiRequest,
 	res: NextApiResponse<{
@@ -15,6 +36,7 @@ const handler = async (
 	}>
 ) => {
 	const id = Array.isArray(req.query.id) ? req.query.id[0] : req.query.id;
+	let bumpType: 'major' | 'minor' | 'patch' = Array.isArray(req.query.bumpType) ? req.query.bumpType[0] as 'major' | 'minor' | 'patch' : req.query.bumpType || 'patch';
 	let metadata = {
 		name: 'unknown',
 		version: 'v0.0.1'
@@ -31,7 +53,7 @@ const handler = async (
 	}
 	const { name, version } = metadata;
 
-	const outputFile = `${buildDir}/${name}-${version}.mapeosettings`
+	const outputFile = `${buildDir}/${name}-${bumpVersion(version, bumpType)}.mapeosettings`
 	if (req.method == "POST") {
 		try {
 			// runs build on it
@@ -39,11 +61,8 @@ const handler = async (
 				fs.mkdirSync(buildDir);
 			}
 			// Bump the version in the metadata.json file
-			let versionParts = metadata.version.split('.');
-			let minorVersion = parseInt(versionParts[1]);
-			minorVersion++;
-			versionParts[1] = minorVersion.toString();
-			metadata.version = versionParts.join('.');
+			
+			metadata.version = bumpVersion(version, bumpType);
 			fs.writeFileSync(path.join(outputDir, 'metadata.json'), JSON.stringify(metadata, null, 2), 'utf8');
 
 			const build = await settingsBuilder({ output: outputFile }, outputDir)
@@ -70,7 +89,3 @@ const handler = async (
 }
 
 export default handler;
-
-
-
-
