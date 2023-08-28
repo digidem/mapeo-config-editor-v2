@@ -26,6 +26,7 @@ const fetchPresets = async (id): Promise<{ data: Preset[] | null }> => {
 
 const MapeoRender = ({ id }) => {
 	const [presets, setPresets] = useState<Preset[] | null>(null);
+	const [selectedPreset, setSelectedPreset] = useState<Preset | null>(null);
 	const [error, setError] = useState<String | null>(null);
 
 	useEffect(() => {
@@ -51,7 +52,7 @@ const MapeoRender = ({ id }) => {
 				<div className={styles.icongrid}>
 					{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
 					{presets && presets.map((preset: Preset, index: number) => (
-						<div key={`${preset.name}-${index}`} className={styles.iconcontainer}>
+						<div key={`${preset.name}-${index}`} className={styles.iconcontainer} onClick={() => setSelectedPreset(preset)}>
 							<div
 								className={styles.icon}
 								style={{
@@ -73,16 +74,18 @@ const MapeoRender = ({ id }) => {
 					{error && <span className={styles.verticalcenter}>Mapeo configuration folder not detected, make sure you are inside or passing the right folder</span>}
 				</div>
 			</div>
-			<CategoryForm
-				icon=""
-				name=""
-				borderColor=""
-				sortValues={[]}
-				onSave={(data) => {
-					console.log(data);
-					// Call to backend goes here
-				}}
-			/>
+			{selectedPreset && (
+				<CategoryForm
+					icon={selectedPreset.iconPath}
+					name={selectedPreset.name}
+					borderColor={selectedPreset.color}
+					sortValues={[]} // Assuming sortValues is not part of the Preset type
+					onSave={(data) => {
+						console.log(data);
+						// Call to backend goes here
+					}}
+				/>
+			)}
 		</div>
 	);
 };

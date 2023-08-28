@@ -11,6 +11,10 @@ interface CategoryFormProps {
 const CategoryForm: React.FC<CategoryFormProps> = ({ icon, name, borderColor, sortValues, onSave }) => {
   const [formState, setFormState] = useState({ icon, name, borderColor, sortValues });
 
+  useEffect(() => {
+    setFormState({ icon, name, borderColor, sortValues });
+  }, [icon, name, borderColor, sortValues]);
+
 		const clearForm = () => {
 			setFormState({ icon: "", name: "", borderColor: "", sortValues: [] });
 		}
