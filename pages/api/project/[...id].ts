@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import getPresets from '../../../../mapeo-config-renderer/api/lib/getPresets'
+import getPresets from 'mapeo-config-renderer/api/lib/getPresets'
 import getOutputDir from "../../../lib/getOutputDir";
 import fs from 'fs'
 
