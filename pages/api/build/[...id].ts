@@ -36,7 +36,7 @@ const handler = async (
 	}>
 ) => {
 	const id = Array.isArray(req.query.id) ? req.query.id[0] : req.query.id;
-	let bumpType: 'major' | 'minor' | 'patch' = Array.isArray(req.query.bumpType) ? req.query.bumpType[0] as 'major' | 'minor' | 'patch' : req.query.bumpType || 'patch';
+	let bumpType: 'major' | 'minor' | 'patch' = Array.isArray(req.query.bumpType) ? req.query.bumpType[0] as 'major' | 'minor' | 'patch' : (req.query.bumpType as 'major' | 'minor' | 'patch') || 'patch';
 	let metadata = {
 		name: 'unknown',
 		version: 'v0.0.1'
