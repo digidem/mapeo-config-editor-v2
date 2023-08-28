@@ -21,4 +21,4 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd ${{secrets.APP_FOLDER}}
-          ./scripts/update_script.sh
+          ./scripts/server_update.sh
