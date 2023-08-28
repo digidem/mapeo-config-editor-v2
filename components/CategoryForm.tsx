@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 interface CategoryFormProps {
   icon: string;
@@ -11,14 +11,18 @@ interface CategoryFormProps {
 const CategoryForm: React.FC<CategoryFormProps> = ({ icon, name, borderColor, sortValues, onSave }) => {
   const [formState, setFormState] = useState({ icon, name, borderColor, sortValues });
 
-  const handleChange = (event) => {
-    setFormState({
-      ...formState,
-      [event.target.name]: event.target.value,
-    });
-  };
+		const clearForm = () => {
+			setFormState({ icon: "", name: "", borderColor: "", sortValues: [] });
+		}
 
-  const handleSubmit = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      setFormState({
+        ...formState,
+        [event.target.name]: event.target.value,
+      });
+    };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSave(formState);
   };
@@ -43,9 +47,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ icon, name, borderColor, so
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
           Save
         </button>
+				<button onClick={clearForm} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Cancel
+        </button>
       </div>
     </form>
   );
 };
 
 export default CategoryForm;
+
+

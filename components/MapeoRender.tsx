@@ -8,7 +8,7 @@ interface Preset {
 	iconPath: string;
 }
 
-const fetchPresets = async (id): Promise<{data: Preset[] | null}> => {
+const fetchPresets = async (id): Promise<{ data: Preset[] | null }> => {
 	if (!id || id.trim() === '') {
 		console.error('Invalid ID:', id)
 		return Promise.resolve({ data: null });
@@ -38,7 +38,8 @@ const MapeoRender = ({ id }) => {
 				setPresets(data);
 			} catch (error) {
 				console.error('Error fetching presets:', error);
-				setError((error as Error)?.message);			}
+				setError((error as Error)?.message);
+			}
 		};
 		if (id && id.trim() !== '') {
 			fetchData()
@@ -54,7 +55,7 @@ const MapeoRender = ({ id }) => {
 							<div
 								className={styles.icon}
 								style={{
-									backgroundColor: "white",
+									backgroundColor: 'white',
 									borderColor: preset.color,
 									borderWidth: 3.5,
 								}}
@@ -62,17 +63,26 @@ const MapeoRender = ({ id }) => {
 								<img
 									src={preset.iconPath}
 									alt={preset.name}
-									style={{ maxWidth: "35px", height: "35px" }}
+									style={{ maxWidth: '35px', height: '35px' }}
 								/>
 							</div>
 							<div className={styles.iconname}>{preset.name}</div>
-
 						</div>
 					))}
 					{!presets && !error && <span className={styles.verticalcenter}>Loading...</span>}
 					{error && <span className={styles.verticalcenter}>Mapeo configuration folder not detected, make sure you are inside or passing the right folder</span>}
 				</div>
 			</div>
+			<CategoryForm
+				icon=""
+				name=""
+				borderColor=""
+				sortValues={[]}
+				onSave={(data) => {
+					console.log(data);
+					// Call to backend goes here
+				}}
+			/>
 		</div>
 	);
 };
