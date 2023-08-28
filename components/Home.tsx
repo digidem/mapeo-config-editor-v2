@@ -16,7 +16,7 @@ const Home: FC = () => {
 				<div className="space-y-10">
 					<div>
 						<h2 className="mb-3 text-xl font-bold text-gray-900">
-							Upload configuration file
+							Upload a Mapeo configuration file to start
 						</h2>
 						<SingleFileUploadForm />
 					</div>

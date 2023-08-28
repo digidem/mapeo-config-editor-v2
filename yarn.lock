@@ -1331,6 +1331,13 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.48.0.tgz#642633964e217905436033a2bd08bf322849b7fb"
   integrity sha512-ZSjtmelB7IJfWD2Fvb7+Z+ChTIKWq6kjda95fLcQKNS5aheVHn4IkfgRQE3sIIzTcSLwLcLZUD9UBt+V7+h+Pw==
 
+"@headlessui/react@^1.7.17":
+  version "1.7.17"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.17.tgz#a0ec23af21b527c030967245fd99776aa7352bc6"
+  integrity sha512-4am+tzvkqDSSgiwrsEpGWqgGo9dz8qU5M3znCkC4PgkpY4HcCZzEDEvozltGGGHIKl9jbXbZPSH5TWn4sWJdow==
+  dependencies:
+    client-only "^0.0.1"
+
 "@humanwhocodes/config-array@^0.11.10":
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.10.tgz#5a3ffe32cc9306365fb3fd572596cd602d5e12d2"
@@ -3641,7 +3648,7 @@ cli-boxes@^2.2.0:
   resolved "https://registry.yarnpkg.com/cli-boxes/-/cli-boxes-2.2.1.tgz#ddd5035d25094fce220e9cab40a45840a440318f"
   integrity sha512-y4coMcylgSCdVinjiDBuR8PCC2bLjyGTwEmPb9NHR/QaNU6EUOXcTY/s6VjGMD6ENSEaeQYHCY0GNGS5jfMwPw==
 
-client-only@0.0.1:
+client-only@0.0.1, client-only@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
@@ -7706,10 +7713,10 @@ mapeo-config-deconstructor@^2.0.6:
     tar "^6.1.15"
     xml2js "^0.6.2"
 
-mapeo-config-renderer@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/mapeo-config-renderer/-/mapeo-config-renderer-1.0.2.tgz#39f360e8949946eb2dbdc92c3a782093fc9ea5a2"
-  integrity sha512-CGcoD3pxIQvM+oJrTPMt89a6HCe/a2Un1R93HsZsCaUlHqATnwO+xaEvsesFQtonIAs+i1P5rpWhphpeQAY5NQ==
+mapeo-config-renderer@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mapeo-config-renderer/-/mapeo-config-renderer-1.0.3.tgz#8b935be29cbda520652935ec2a19e9a284236851"
+  integrity sha512-5AodeHVgX1kAyxyuDQYNahSoDHyrL3ytIaN3eSq2WtPyFNhQva/vJ+ZKo3FgYBlzXR0ixxTBUIGvKHfWzJf/8A==
   dependencies:
     "@testing-library/jest-dom" "^5.17.0"
     "@testing-library/react" "^13.4.0"

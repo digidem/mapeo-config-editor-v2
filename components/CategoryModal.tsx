@@ -1,20 +1,19 @@
 import React, { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import CategoryForm from './CategoryForm';
+import { Preset } from './MapeoRender';
 
-interface Preset {
-	name: string;
-	color: string;
-	iconPath: string;
-}
 
 interface CategoryModalProps {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
 	selectedPreset: Preset | null;
+	handleUpdatePreset:
+	(slug: string, form: { icon: string, name: string, color: string, sort: number }) => void;
+	
 }
 
-const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, setIsOpen, selectedPreset }) => {
+const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, setIsOpen, selectedPreset, handleUpdatePreset }) => {
 	const cancelButtonRef = useRef(null);
 
 	return (
@@ -56,16 +55,16 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, setIsOpen, select
 							leaveTo="opacity-0 scale-95"
 						>
 							<div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+								<h1>{selectedPreset.slug}</h1>
 								<CategoryForm
-									icon={selectedPreset.iconPath}
-									name={selectedPreset.name}
-									borderColor={selectedPreset.color}
-									sortValues={[]} // Assuming sortValues is not part of the Preset type
-									onSave={(data) => {
-										console.log(data);
+									{...selectedPreset}
+									onSave={(formState) => {
+										console.log(formState);
 										// Call to backend goes here
+										handleUpdatePreset(selectedPreset?.slug, formState)
 										setIsOpen(false);
 									}}
+									onCancel={() => setIsOpen(false)}
 								/>
 							</div>
 						</Transition.Child>

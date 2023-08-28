@@ -59,7 +59,7 @@ const SingleFileUploadForm = () => {
 	const { getRootProps, getInputProps } = useDropzone({ onDrop});
 
 	return (
-		<div {...getRootProps()} className="w-full p-3 border border-gray-500 border-dashed">
+		<div {...getRootProps()} className="w-full p-3 py-36 border border-gray-500 border-dashed">
 			<input {...getInputProps()} />
 			<div className="flex flex-col md:flex-row gap-1.5 md:py-4">
 				<div className="flex-grow flex items-center justify-center">

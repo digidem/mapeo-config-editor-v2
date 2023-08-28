@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.css';
-import CategoryForm from './CategoryForm';
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useRef } from 'react';
+import CategoryModal from './CategoryModal';
 
-interface Preset {
+export interface Preset {
 	name: string;
 	color: string;
 	iconPath: string;
+	sort: number;
+	icon: string;
+	slug: string;
 }
-
 const fetchPresets = async (id): Promise<{ data: Preset[] | null }> => {
 	if (!id || id.trim() === '') {
 		console.error('Invalid ID:', id)
@@ -26,13 +26,27 @@ const fetchPresets = async (id): Promise<{ data: Preset[] | null }> => {
 	}
 };
 
+const updatePreset = async (id, slug, formState) => {
+	const body = { ...formState, slug }
+	console.log(id, slug, formState, body)
+	const response = await fetch(`/api/project/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	});
+	const data = await response.json();
+	return data
+
+}
+
 const MapeoRender = ({ id }) => {
 	const [presets, setPresets] = useState<Preset[] | null>(null);
 	const [selectedPreset, setSelectedPreset] = useState<Preset | null>(null);
 	const [error, setError] = useState<String | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	import CategoryModal from './CategoryModal';
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -51,6 +65,16 @@ const MapeoRender = ({ id }) => {
 			fetchData()
 		}
 	}, [id]);
+	const handleUpdatePreset = async (slug, formState) => {
+		console.log('Updating preset with slug:', slug, 'and formState:', formState);
+		try {
+			const { data } = await updatePreset(id, slug, formState)
+			setPresets(data);
+		} catch (error) {
+			console.error('Error fetching presets:', error);
+			setError((error as Error)?.message);
+		}
+	}
 	return (
 		<div>
 			<div className="flex flex-col md:flex-row">
@@ -59,7 +83,7 @@ const MapeoRender = ({ id }) => {
 						<div className={styles.icongrid}>
 							{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
 							{presets && presets.map((preset: Preset, index: number) => (
-								<div key={`${preset.name}-${index}`} className={styles.iconcontainer} onClick={() => {setSelectedPreset(preset); setIsOpen(true);}}>
+								<div key={`${preset.slug}-${index}`} className={styles.categorycontainer} onClick={() => { setSelectedPreset(preset); setIsOpen(true); }}>
 									<div
 										className={styles.icon}
 										style={{
@@ -82,7 +106,7 @@ const MapeoRender = ({ id }) => {
 						</div>
 					</div>
 					<div className="md:w-1/2">
-						<CategoryModal isOpen={isOpen} setIsOpen={setIsOpen} selectedPreset={selectedPreset} />
+						<CategoryModal handleUpdatePreset={handleUpdatePreset} isOpen={isOpen} setIsOpen={setIsOpen} selectedPreset={selectedPreset} />
 					</div>
 				</div>
 			</div>
