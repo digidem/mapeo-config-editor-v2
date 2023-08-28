@@ -47,45 +47,47 @@ const MapeoRender = ({ id }) => {
 		}
 	}, [id]);
 	return (
-		<div className={styles.phoneouterframe}>
-			<div className={styles.phoneframe}>
-				<div className={styles.icongrid}>
-					{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
-					{presets && presets.map((preset: Preset, index: number) => (
-						<div key={`${preset.name}-${index}`} className={styles.iconcontainer} onClick={() => setSelectedPreset(preset)}>
-							<div
-								className={styles.icon}
-								style={{
-									backgroundColor: 'white',
-									borderColor: preset.color,
-									borderWidth: 3.5,
-								}}
-							>
-								<img
-									src={preset.iconPath}
-									alt={preset.name}
-									style={{ maxWidth: '35px', height: '35px' }}
-								/>
+		<div>
+			<div className={styles.phoneouterframe}>
+				<div className={styles.phoneframe}>
+					<div className={styles.icongrid}>
+						{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
+						{presets && presets.map((preset: Preset, index: number) => (
+							<div key={`${preset.name}-${index}`} className={styles.iconcontainer} onClick={() => setSelectedPreset(preset)}>
+								<div
+									className={styles.icon}
+									style={{
+										backgroundColor: 'white',
+										borderColor: preset.color,
+										borderWidth: 3.5,
+									}}
+								>
+									<img
+										src={preset.iconPath}
+										alt={preset.name}
+										style={{ maxWidth: '35px', height: '35px' }}
+									/>
+								</div>
+								<div className={styles.iconname}>{preset.name}</div>
 							</div>
-							<div className={styles.iconname}>{preset.name}</div>
-						</div>
-					))}
-					{!presets && !error && <span className={styles.verticalcenter}>Loading...</span>}
-					{error && <span className={styles.verticalcenter}>Mapeo configuration folder not detected, make sure you are inside or passing the right folder</span>}
+						))}
+						{!presets && !error && <span className={styles.verticalcenter}>Loading...</span>}
+						{error && <span className={styles.verticalcenter}>Mapeo configuration folder not detected, make sure you are inside or passing the right folder</span>}
+					</div>
 				</div>
+				{selectedPreset && (
+					<CategoryForm
+						icon={selectedPreset.iconPath}
+						name={selectedPreset.name}
+						borderColor={selectedPreset.color}
+						sortValues={[]} // Assuming sortValues is not part of the Preset type
+						onSave={(data) => {
+							console.log(data);
+							// Call to backend goes here
+						}}
+					/>
+				)}
 			</div>
-			{selectedPreset && (
-				<CategoryForm
-					icon={selectedPreset.iconPath}
-					name={selectedPreset.name}
-					borderColor={selectedPreset.color}
-					sortValues={[]} // Assuming sortValues is not part of the Preset type
-					onSave={(data) => {
-						console.log(data);
-						// Call to backend goes here
-					}}
-				/>
-			)}
 		</div>
 	);
 };
