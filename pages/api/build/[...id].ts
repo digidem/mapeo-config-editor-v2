@@ -22,6 +22,9 @@ const handler = async (
 	if (req.method == "POST") {
 		try {
 			// runs build on it
+			if (!fs.existsSync(buildDir)){
+				fs.mkdirSync(buildDir);
+			}
 			const build = await settingsBuilder({ output: buildDir }, outputDir)
 			console.log('BUILD!!', build)
 		} catch (err) {
@@ -29,14 +32,18 @@ const handler = async (
 		}
 	} else if (req.method == 'GET') {
 		try {
-			const filePath = path.join(buildDir, '.mapeosettings');
-			if (fs.existsSync(filePath)) {
+			const settingsFiles = fs.readdirSync(buildDir).filter(fn => fn.endsWith('.mapeosettings'));
+			if (settingsFiles.length > 0) {
+				const filePath = path.join(buildDir, settingsFiles[0]);
 				res.status(200).json({ status: 'done', build: filePath, error: null });
-			} else {
+			} else if (fs.existsSync(buildDir)) {
 				res.status(200).json({ status: 'building', build: '', error: null });
+			} else {
+				res.status(500).json({ status: 'error', build: '', error: 'Build directory does not exist' });
 			}
 		} catch (err) {
-			res.status(500).json({ status: 'error', build: '', error: (err as Error).toString() });		}
+			res.status(500).json({ status: 'error', build: '', error: (err as Error).toString() });		
+		}
 	}
 
 }

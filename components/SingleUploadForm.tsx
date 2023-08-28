@@ -96,10 +96,10 @@ const SingleFileUploadForm = () => {
 			onSubmit={(e) => e.preventDefault()}
 		>
 			<div className="flex flex-col md:flex-row gap-1.5 md:py-4">
-				<div className="flex-grow">
+				<div className="flex-grow flex items-center justify-center">
 					{previewUrl ? (
-						<div className="mx-auto w-80">
-							Config loaded: <a href={previewUrl}>{previewUrl}</a>
+						<div className="mx-auto w-80 text-center">
+							Config loaded!
 						</div>
 					) : (
 						<label className="flex flex-col items-center justify-center h-full py-3 transition-colors duration-150 cursor-pointer hover:text-gray-600">
@@ -114,7 +114,7 @@ const SingleFileUploadForm = () => {
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
-									d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+									d="M12 4v16m8-8H4"
 								/>
 							</svg>
 							<strong className="text-sm font-medium">Select a .mapeosettings file</strong>
@@ -122,6 +122,7 @@ const SingleFileUploadForm = () => {
 								className="block w-0 h-0"
 								name="file"
 								type="file"
+								accept=".mapeosettings"
 								onChange={onFileUploadChange}
 							/>
 						</label>
@@ -133,7 +134,7 @@ const SingleFileUploadForm = () => {
 						onClick={onCancelFile}
 						className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
 					>
-						Cancel file
+						Cancel
 					</button>
 					{uploading ? (
 						<div>Uploading...</div>
@@ -143,7 +144,7 @@ const SingleFileUploadForm = () => {
 							onClick={onUploadFile}
 							className="w-1/2 px-4 py-3 text-sm font-medium text-white transition-colors duration-300 bg-gray-700 rounded-sm md:w-auto md:text-base disabled:bg-gray-400 hover:bg-gray-600"
 						>
-							Upload file
+							Load configuration
 						</button>
 					)}
 				</div>
