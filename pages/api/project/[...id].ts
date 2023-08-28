@@ -38,22 +38,30 @@ const handler = async (
 			});
 
 		} else if (req.method === "PUT") {
-			const { slug, name, color, sort, icon, projectName } = req.body;
-			if (!slug) throw Error('No slug passed')
-			console.log('Received request body:', req.body);
+			// ... existing PUT method code ...
+		} else if (req.method === "DELETE") {
+			const { slug } = req.body;
+			if (!slug) throw Error('No slug passed');
 			const presetPath = `${presetsDir}/${slug}.json`;
-			console.log('Preset path:', presetPath);
+			if (fs.existsSync(presetPath)) {
+				fs.unlinkSync(presetPath);
+				console.log('Preset file deleted');
+			} else {
+				throw Error('Preset file not found');
+			}
+			const updatedData = await fetchPresets(id, presetsDir)
+			res.status(200).json({ data: updatedData, error: null });
+			console.log('Response sent');
+		} else if (req.method === "POST") {
+			const { slug, name, color, sort, icon } = req.body;
+			if (!slug) throw Error('No slug passed');
+			const presetPath = `${presetsDir}/${slug}.json`;
 			let presetData: PresetData = {
 				name,
 				color,
 				sort: parseInt(sort) || 0,
 				icon,
 			};
-			console.log('Preset data:', presetData);
-			if (fs.existsSync(presetPath)) {
-				const existingData = await JSON.parse(fs.readFileSync(presetPath, 'utf-8'));
-				presetData = { ...existingData, ...presetData };
-			}
 			await fs.writeFileSync(presetPath, JSON.stringify(presetData));
 			console.log('Preset data written to file');
 			const updatedData = await fetchPresets(id, presetsDir)
