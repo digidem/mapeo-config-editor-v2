@@ -29,9 +29,9 @@ const Build: NextPage = () => {
 	return (
 		<div>
 			<Head>
-				<title>Mapeo config editor</title>
-				<meta name="description" content="File uploader" />
-			</Head>
+        <title>{name || 'Config'}</title>
+        <meta name="description" content={version || 'v0.0.1'} />
+      </Head>
 
 			<div className="w-full max-w-3xl px-3 mx-auto mt-12">
 				<div className="flex flex-col items-center justify-center space-y-10 bg-gray-100 p-5 rounded-lg py-48">
