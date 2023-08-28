@@ -50,8 +50,8 @@ const Project = () => {
 				</div>
 				<MapeoRender id={id || ''} />
 				<div className="flex justify-between items-center bg-blue-700 p-4 rounded-lg mt-4 w-[380px]">
-					<button className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none mx-2" onClick={() => reset()}>Restart</button>
-					<button className={isLoading ? "px-4 py-2 bg-white text-blue-900 rounded hover:bg-green-500 focus:outline-none mx-2" : "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none mx-2"} onClick={() => build()} disabled={isLoading}>
+					<button className="w-[160px] px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none mx-2" onClick={() => reset()}>Restart</button>
+					<button className={isLoading ? "w-[160px] px-4 py-2 bg-white text-blue-900 rounded hover:bg-green-500 focus:outline-none mx-2" : "w-[160px] px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none mx-2"} onClick={() => build()} disabled={isLoading}>
 						{isLoading ? 'Building...' : 'Build'}
 					</button>
 				</div>

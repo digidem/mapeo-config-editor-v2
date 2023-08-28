@@ -1,5 +1,6 @@
-.icongrid {
+.categorygrid {
 	padding: 20px;
+	padding-bottom: 250px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: flex-start;
@@ -8,6 +9,18 @@
 	height: 80vh;
 	overflow-y: auto;
 	overflow-x: hidden;
+	/* Add styles for the sidebar scroller */
+	scrollbar-width: thin;
+	scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
+}
+
+.categorygrid::-webkit-scrollbar {
+	width: 8px;
+}
+
+.categorygrid::-webkit-scrollbar-thumb {
+	background-color: rgba(155, 155, 155, 0.7);
+	border-radius: 4px;
 }
 
 .categorycontainer {
@@ -33,7 +46,6 @@
 	text-align: center;
 }
 .phoneframe {
-	padding-bottom: 60px;
 	box-sizing: border-box;
 	width: 375px;
 	height: 667px;

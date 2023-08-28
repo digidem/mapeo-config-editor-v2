@@ -77,7 +77,7 @@ const MapeoRender = ({ id }) => {
 			<div className="flex flex-col md:flex-row">
 				<div className={styles.phoneouterframe}>
 					<div className={styles.phoneframe}>
-						<div className={styles.icongrid}>
+						<div className={styles.categorygrid}>
 							{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
 							{presets && presets.map((preset: Preset, index: number) => (
 								<div key={`${preset.slug}-${index}`} className={styles.categorycontainer} onClick={() => { setSelectedPreset(preset); setIsOpen(true); }}>
