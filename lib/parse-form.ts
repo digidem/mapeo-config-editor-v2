@@ -39,11 +39,7 @@ export const parseForm = async (
         }`;
         console.log("Generated filename:", filename); // Add descriptive log
         return filename;
-      },
-      // filter: (part) => {
-      //   console.log("Filtering part:", part.name); // Add descriptive log
-      //   return part.name === "media" && part.mimetype === "application/mapeosettings";
-      // },
+      }
     });
 
     form.parse(req, function (err, fields, files) {

@@ -18,7 +18,6 @@ const Project = () => {
 					setName(data.name)
 					setVersion(data.version)
 					const { status } = data
-					console.log('Build response:', status)
 					if (status === 'done' || status === 'building') {
 						router.push(`/build?id=${id}`)
 					}
@@ -33,7 +32,6 @@ const Project = () => {
 	const reset = () => router.push('/')
 	const build = async () => {
 		setIsLoading(true)
-		console.log('building')
 		fetch(`/api/build/${id}`, {
 			method: 'POST',
 			headers: {

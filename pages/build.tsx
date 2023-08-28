@@ -16,7 +16,6 @@ const Build: NextPage = () => {
 					const response = await fetch(`/api/build/${id}`)
 					const { build, status, name, version } = await response.json()
 					setState(prevState => ({ ...prevState, build, status, name, version }))
-					console.log('Build response:', status)
 				} catch (error) {
 					setState(prevState => ({ ...prevState, error }))
 					console.error('Error building:', error)

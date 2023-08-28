@@ -5,7 +5,6 @@ export default (id: string | undefined) => {
 	if (!id) {
 		projectId = randomUUID()
 	}
-	console.log("Building project", projectId);
 	const rootDir = process.env.ROOT_DIR || process.cwd()
 	return {
 		outputDir: `${rootDir}/uploads/mapeo-extracted-${projectId}`,

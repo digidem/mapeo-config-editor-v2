@@ -25,7 +25,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, setIsOpen, select
 					initialFocus={cancelButtonRef}
 					static
 					open={isOpen}
-					onClose={setIsOpen}
+					onClose={() => {}}
 				>
 					<div className="min-h-screen px-4 text-center">
 						<Transition.Child
@@ -59,8 +59,6 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, setIsOpen, select
 								<CategoryForm
 									{...selectedPreset}
 									onSave={(formState) => {
-										console.log(formState);
-										// Call to backend goes here
 										handleUpdatePreset(selectedPreset?.slug, formState)
 										setIsOpen(false);
 									}}

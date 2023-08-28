@@ -27,11 +27,8 @@ const handler = async (
 		const nameStr = Array.isArray(name) ? name[0] : name || '';
 		const { outputDir } = getOutputDir(idStr);
 		const iconPath = `${outputDir}/icons/${nameStr}-100px.svg`;		// const data = await getIcon(iconPath)
-		// console.log('DAA', data)
 		res.setHeader("Content-Type", "image/svg+xml");
-		// res.send(data)
 		var readStream = fs.createReadStream(iconPath);
-		// // We replaced all the event handlers with a simple call to readStream.pipe()
 		readStream.pipe(res)
 	} catch (err) {
 		console.error(err)

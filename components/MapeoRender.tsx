@@ -18,7 +18,6 @@ const fetchPresets = async (id): Promise<{ data: Preset[] | null }> => {
 	try {
 		const response = await fetch(`/api/project/${id}`)
 		const data = await response.json()
-		console.log('Presets response:', data)
 		return data;
 	} catch (error) {
 		console.error('Error fetching presets:', error)
@@ -28,7 +27,6 @@ const fetchPresets = async (id): Promise<{ data: Preset[] | null }> => {
 
 const updatePreset = async (id, slug, formState) => {
 	const body = { ...formState, slug }
-	console.log(id, slug, formState, body)
 	const response = await fetch(`/api/project/${id}`, {
 		method: 'PUT',
 		headers: {
@@ -66,7 +64,6 @@ const MapeoRender = ({ id }) => {
 		}
 	}, [id]);
 	const handleUpdatePreset = async (slug, formState) => {
-		console.log('Updating preset with slug:', slug, 'and formState:', formState);
 		try {
 			const { data } = await updatePreset(id, slug, formState)
 			setPresets(data);

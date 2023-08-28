@@ -6,7 +6,7 @@ import fs from 'fs'
 interface PresetData {
 	name: string;
 	color: string;
-	sort: string;
+	sort: number;
 	icon: string;
 }
 async function fetchPresets (id, presetsDir) {
@@ -43,13 +43,17 @@ const handler = async (
 			console.log('Received request body:', req.body);
 			const presetPath = `${presetsDir}/${slug}.json`;
 			console.log('Preset path:', presetPath);
-			const presetData: PresetData = {
+			let presetData: PresetData = {
 				name,
 				color,
-				sort: `${sort}`,
+				sort: parseInt(sort) || 0,
 				icon,
 			};
 			console.log('Preset data:', presetData);
+			if (fs.existsSync(presetPath)) {
+				const existingData = await JSON.parse(fs.readFileSync(presetPath, 'utf-8'));
+				presetData = { ...existingData, ...presetData };
+			}
 			await fs.writeFileSync(presetPath, JSON.stringify(presetData));
 			console.log('Preset data written to file');
 			const updatedData = await fetchPresets(id, presetsDir)
@@ -58,8 +62,7 @@ const handler = async (
 		}
 	} catch (error) {
 		console.error(error)
-		res.status(500).json({ error: error instanceof Error ? error.message : null });
-	}
+		res.status(500).json({ data: null, error: error instanceof Error ? error.message : null });	}
 }
 
 	export default handler;

@@ -66,7 +66,6 @@ const handler = async (
 			fs.writeFileSync(path.join(outputDir, 'metadata.json'), JSON.stringify(metadata, null, 2), 'utf8');
 
 			const build = await settingsBuilder({ output: outputFile }, outputDir)
-			console.log('BUILD!!', build)
 		} catch (err) {
 			console.error(err)
 		}

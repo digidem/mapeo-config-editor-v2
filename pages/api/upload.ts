@@ -37,7 +37,6 @@ const handler = async (
 			url,
 			outputDir
 		);
-		console.log('configFolder, outputFolder', configFolder, outputFolder);
 		await desconstructPresets(configFolder, outputFolder);
 		await desconstructSvgSprite(configFolder, outputFolder);
 		await copyFiles(configFolder, outputFolder);
