@@ -1,25 +1,14 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { useRouter } from 'next/router'
+import { useDropzone } from 'react-dropzone'
 
 const SingleFileUploadForm = () => {
 	const router = useRouter()
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState<boolean>(false);
 
-	const onFileUploadChange = async (e: ChangeEvent<HTMLInputElement>) => {
-		const fileInput = e.target;
-
-		if (!fileInput.files) {
-			alert("No file was chosen");
-			return;
-		}
-
-		if (!fileInput.files || fileInput.files.length === 0) {
-			alert("Files list is empty");
-			return;
-		}
-
-		const file = fileInput.files[0];
+	const onDrop = async (acceptedFiles: File[]) => {
+		const file = acceptedFiles[0];
 
 		/** File validation */
 		if (!file.name.endsWith('.mapeosettings')) {
@@ -67,11 +56,11 @@ const SingleFileUploadForm = () => {
 		}
 	};
 
+	const { getRootProps, getInputProps } = useDropzone({ onDrop});
+
 	return (
-		<form
-			className="w-full p-3 border border-gray-500 border-dashed"
-			onSubmit={(e) => e.preventDefault()}
-		>
+		<div {...getRootProps()} className="w-full p-3 border border-gray-500 border-dashed">
+			<input {...getInputProps()} />
 			<div className="flex flex-col md:flex-row gap-1.5 md:py-4">
 				<div className="flex-grow flex items-center justify-center">
 					{uploading ? (
@@ -82,7 +71,7 @@ const SingleFileUploadForm = () => {
 							Uploading
 						</div>
 					) : (
-						<label className="flex flex-col items-center justify-center h-full py-3 transition-colors duration-150 cursor-pointer hover:text-gray-600">
+						<div className="flex flex-col items-center justify-center h-full py-3 transition-colors duration-150 cursor-pointer hover:text-gray-600">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								className="w-14 h-14"
@@ -97,21 +86,14 @@ const SingleFileUploadForm = () => {
 									d="M12 4v16m8-8H4"
 								/>
 							</svg>
-							<strong className="text-sm font-medium">Select a .mapeosettings file</strong>
-							<input
-								className="block w-0 h-0"
-								name="file"
-								type="file"
-								accept=".mapeosettings"
-								onChange={onFileUploadChange}
-							/>
-						</label>
+							<strong className="text-sm font-medium">Drag and drop a .mapeosettings file here, or click to select file</strong>
+						</div>
 					)}
 				</div>
-				
 			</div>
-		</form>
+		</div>
 	);
 };
 
 export default SingleFileUploadForm;
+

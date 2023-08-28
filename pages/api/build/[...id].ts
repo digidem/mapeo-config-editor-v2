@@ -5,7 +5,7 @@ import getOutputDir from "../../../lib/getOutputDir";
 import fs from 'fs'
 function bumpVersion(version: string, bumpType: 'major' | 'minor' | 'patch' = 'patch') {
 	let versionParts = version.split('.');
-	switch(bumpType) {
+	switch (bumpType) {
 		case 'major':
 			let majorVersion = parseInt(versionParts[0]);
 			majorVersion++;
@@ -57,11 +57,11 @@ const handler = async (
 	if (req.method == "POST") {
 		try {
 			// runs build on it
-			if (!fs.existsSync(buildDir)){
+			if (!fs.existsSync(buildDir)) {
 				fs.mkdirSync(buildDir);
 			}
 			// Bump the version in the metadata.json file
-			
+
 			metadata.version = bumpVersion(version, bumpType);
 			fs.writeFileSync(path.join(outputDir, 'metadata.json'), JSON.stringify(metadata, null, 2), 'utf8');
 
@@ -74,15 +74,26 @@ const handler = async (
 		try {
 			const settingsFiles = fs.readdirSync(buildDir).filter(fn => fn.endsWith('.mapeosettings'));
 			if (settingsFiles.length > 0) {
-				const filePath = path.join(buildDir, settingsFiles[0]);
-				res.status(200).json({ status: 'done', build: filePath, name, version, error: null,  });
+				const files = fs.readdirSync(outputDir);
+				for (const file of files) {
+					if (file !== 'build' && file !== 'metadata.json') {
+						const filePath = path.join(outputDir, file);
+						if (fs.lstatSync(filePath).isDirectory()) {
+							fs.rmdirSync(filePath, { recursive: true });
+						} else {
+							fs.unlinkSync(filePath);
+						}
+					}
+				}
+				const filePath = `/api/file?id=${id}&name=${settingsFiles[0]}`
+				res.status(200).json({ status: 'done', build: filePath, name, version, error: null, });
 			} else if (fs.existsSync(buildDir)) {
 				res.status(200).json({ status: 'building', build: '', error: null, name, version });
 			} else {
 				res.status(500).json({ status: 'error', build: '', error: 'Build directory does not exist', name, version });
 			}
 		} catch (err) {
-			res.status(500).json({ status: 'error', build: '', error: (err as Error).toString(), name: name, version });		
+			res.status(500).json({ status: 'error', build: '', error: (err as Error).toString(), name: name, version });
 		}
 	}
 

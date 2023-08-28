@@ -39,14 +39,22 @@ const Build: NextPage = () => {
 					<main className="space-y-12 flex flex-col items-center justify-center">
 						<h2 className="text-4xl font-bold text-center">{name}</h2>
 						<p className="text-lg text-gray-500 text-center">{version}</p>
-						{build ? 
-							<a download href={build} className="flex flex-col items-center justify-center space-y-4">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-12 w-12 animate-bounce">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-								</svg>
-								<span className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 transition-colors duration-200">Download Build</span> 
-							</a>
-							: 
+						{build ?
+							<div className="flex flex-col items-center space-y-4">
+								<a download={`${name}-${version}.mapeosettings`} href={build} className="flex flex-col items-center justify-center space-y-2">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-12 w-12 animate-bounce">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+									</svg>
+									<span className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 transition-colors duration-200">Download Build</span>
+								</a>
+								<button onClick={() => {navigator.clipboard.writeText(window.location.href); alert('Copied to clipboard!')}} className="flex items-center justify-center px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 transition-colors duration-200 mt-4">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 mr-2">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+									</svg>
+									Share link
+								</button>
+							</div>
+							:
 							<div className="flex flex-col items-center justify-center space-y-3">
 								<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
 								<p className="pt-12 text-lg text-gray-700 animate-pulse">{status || 'Loading...'}</p>
