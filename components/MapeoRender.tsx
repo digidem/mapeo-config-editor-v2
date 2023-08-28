@@ -63,6 +63,40 @@ const MapeoRender = ({ id }) => {
 			fetchData()
 		}
 	}, [id]);
+	const handleDeletePreset = async (slug) => {
+		try {
+			const response = await fetch(`/api/project/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ slug }),
+			});
+			const { data } = await response.json();
+			setPresets(data);
+		} catch (error) {
+			console.error('Error deleting preset:', error);
+			setError((error as Error)?.message);
+		}
+	};
+
+	const handleCreatePreset = async (formState) => {
+		try {
+			const response = await fetch(`/api/project/${id}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formState),
+			});
+			const { data } = await response.json();
+			setPresets(data);
+		} catch (error) {
+			console.error('Error creating preset:', error);
+			setError((error as Error)?.message);
+		}
+	};
+
 	const handleUpdatePreset = async (slug, formState) => {
 		try {
 			const { data } = await updatePreset(id, slug, formState)
@@ -78,9 +112,12 @@ const MapeoRender = ({ id }) => {
 				<div className={styles.phoneouterframe}>
 					<div className={styles.phoneframe}>
 						<div className={styles.categorygrid}>
+							<button onClick={() => setIsOpen(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+								Create Preset
+							</button>
 							{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
 							{presets && presets.map((preset: Preset, index: number) => (
-								<div key={`${preset.slug}-${index}`} className={styles.categorycontainer} onClick={() => { setSelectedPreset(preset); setIsOpen(true); }}>
+								<div key={`${preset.slug}-${index}`} className={styles.categorycontainer}>
 									<div
 										className={styles.icon}
 										style={{
@@ -88,6 +125,7 @@ const MapeoRender = ({ id }) => {
 											borderColor: preset.color,
 											borderWidth: 3.5,
 										}}
+										onClick={() => { setSelectedPreset(preset); setIsOpen(true); }}
 									>
 										<img
 											src={preset.iconPath}
@@ -96,6 +134,9 @@ const MapeoRender = ({ id }) => {
 										/>
 									</div>
 									<div className={styles.iconname}>{preset.name}</div>
+									<button onClick={() => handleDeletePreset(preset.slug)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+										Delete
+									</button>
 								</div>
 							))}
 							{!presets && !error && <span className={styles.verticalcenter}>Loading...</span>}
