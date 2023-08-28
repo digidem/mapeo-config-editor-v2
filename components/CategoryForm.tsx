@@ -32,7 +32,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ icon, name, borderColor, so
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md">
+    <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md md:w-full h-screen md:h-auto">
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="icon">
           Icon

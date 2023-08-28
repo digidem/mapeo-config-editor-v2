@@ -48,7 +48,8 @@ const MapeoRender = ({ id }) => {
 	}, [id]);
 	return (
 		<div>
-			<div className={styles.phoneouterframe}>
+			<div className="flex flex-col md:flex-row">
+				<div className={styles.phoneouterframe}>
 				<div className={styles.phoneframe}>
 					<div className={styles.icongrid}>
 						{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
@@ -75,18 +76,20 @@ const MapeoRender = ({ id }) => {
 						{error && <span className={styles.verticalcenter}>Mapeo configuration folder not detected, make sure you are inside or passing the right folder</span>}
 					</div>
 				</div>
-				{selectedPreset && (
-					<CategoryForm
-						icon={selectedPreset.iconPath}
-						name={selectedPreset.name}
-						borderColor={selectedPreset.color}
-						sortValues={[]} // Assuming sortValues is not part of the Preset type
-						onSave={(data) => {
-							console.log(data);
-							// Call to backend goes here
-						}}
-					/>
-				)}
+				<div className="md:w-1/2">
+					{selectedPreset && (
+						<CategoryForm
+							icon={selectedPreset.iconPath}
+							name={selectedPreset.name}
+							borderColor={selectedPreset.color}
+							sortValues={[]} // Assuming sortValues is not part of the Preset type
+							onSave={(data) => {
+								console.log(data);
+								// Call to backend goes here
+							}}
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);
