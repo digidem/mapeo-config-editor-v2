@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { parseForm, FormidableError } from "../../lib/parse-form";
+import { parseForm, FormidableError } from "../../../lib/parse-form";
 import {   desconstructPresets,
   desconstructSvgSprite,
   copyFiles,
   extractConfig,
   createPackageJson,
  } from 'mapeo-config-deconstructor/src/'
-import getOutputDir from "../../lib/getOutputDir";
+import getOutputDir from "../../../lib/getOutputDir";
 
 interface ResponseData {
   id: string | null;
@@ -31,10 +31,10 @@ const handler = async (
   try {
     const { fields, files } = await parseForm(req);
     const file = files.media;
-    let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+    let fileUrl = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
 		const {outputDir, projectId} = getOutputDir(undefined)
 		const { configFolder, outputFolder } = await extractConfig(
-			url,
+			fileUrl,
 			outputDir
 		);
 		await desconstructPresets(configFolder, outputFolder);

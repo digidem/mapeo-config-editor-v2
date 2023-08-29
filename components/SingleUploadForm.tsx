@@ -24,7 +24,7 @@ const SingleFileUploadForm = () => {
 			var formData = new FormData();
 			formData.append("media", file);
 
-			const res = await fetch("/api/upload", {
+			const res = await fetch("/api/upload/settings", {
 				method: "POST",
 				body: formData,
 			});
@@ -45,7 +45,6 @@ const SingleFileUploadForm = () => {
 				return;
 			}
 
-			console.log("File was uploaded successfylly:", data);
 			const id = data?.id
 			router.push(`/p?id=${id}`)
 			setUploading(false);

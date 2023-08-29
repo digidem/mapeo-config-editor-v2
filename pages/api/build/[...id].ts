@@ -2,7 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import path from 'path'
 const settingsBuilder = require('mapeo-settings-builder/commands/build_lint.js') as (options: { output: string }, outputDir: string) => Promise<void>;
 import getOutputDir from "../../../lib/getOutputDir";
+import generateDefault from "../../../lib/generateDefault"
 import fs from 'fs'
+
 function bumpVersion(version: string, bumpType: 'major' | 'minor' | 'patch' = 'patch') {
 	let versionParts = version.split('.');
 	switch (bumpType) {
@@ -64,7 +66,8 @@ const handler = async (
 
 			metadata.version = bumpVersion(version, bumpType);
 			fs.writeFileSync(path.join(outputDir, 'metadata.json'), JSON.stringify(metadata, null, 2), 'utf8');
-
+			// update defaults
+			await generateDefault(outputDir)
 			const build = await settingsBuilder({ output: outputFile }, outputDir)
 		} catch (err) {
 			console.error(err)
