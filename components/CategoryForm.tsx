@@ -73,34 +73,34 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (iconFile) {
-			setUploading(true);
-			try {
-				const formData = new FormData();
+		setUploading(true);
+		try {
+			const formData = new FormData();
+			if (iconFile) {
 				formData.append('icon', iconFile);
-				const response = await fetch(`/api/upload/icon/${id}`, {
-					method: 'POST',
-					body: formData,
-				});
-				const { data } = await response.json();
-				if (!data?.icon) {
-					throw new Error('Network response was not ok');
-				} else {
-					const updatedFormState = {
-						...formState,
-						icon: data.icon,
-					};
-					if (createNew) {
-						onCreate(updatedFormState)
-					} else {
-						onSave(updatedFormState);
-					}
-				}
-			} catch (error) {
-				console.error('Error:', error);
-			} finally {
-				setUploading(false);
 			}
+			const response = await fetch(`/api/upload/icon/${id}`, {
+				method: 'POST',
+				body: formData,
+			});
+			const { data } = await response.json();
+			if (!data?.icon && iconFile) {
+				throw new Error('Network response was not ok');
+			} else {
+				const updatedFormState = {
+					...formState,
+					icon: data?.icon || formState.icon,
+				};
+				if (createNew) {
+					onCreate(updatedFormState)
+				} else {
+					onSave(updatedFormState);
+				}
+			}
+		} catch (error) {
+			console.error('Error:', error);
+		} finally {
+			setUploading(false);
 		}
 	};
 
