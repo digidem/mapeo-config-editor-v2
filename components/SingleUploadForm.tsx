@@ -11,9 +11,11 @@ const SingleFileUploadForm = () => {
 		const file = acceptedFiles[0];
 
 		/** File validation */
-		if (!file.name.endsWith('.mapeosettings')) {
-			alert("Please select a valid .mapeosettings file");
-			return;
+		if (window.innerWidth > 768) {
+			if (!file.name.endsWith('.mapeosettings')) {
+				alert("Please select a valid .mapeosettings file");
+				return;
+			}
 		}
 
 		/** Setting file state */
