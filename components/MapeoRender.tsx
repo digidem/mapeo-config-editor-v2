@@ -143,7 +143,7 @@ const MapeoRender = ({ id }) => {
 					</div>
 				</div>
 			</div>
-			<div className="mx-auto mt-2">
+			<div className="mx-auto" style={{marginTop: -35}}>
 					<button onClick={() => { setSelectedPreset(null); setIsOpen(true); }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-full" style={{ width: '60px', height: '60px' }}>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-full w-full">
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

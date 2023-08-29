@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { useState } from "react";
 import { useRouter } from 'next/router'
 import { useDropzone } from 'react-dropzone'
 
@@ -55,7 +55,11 @@ const SingleFileUploadForm = () => {
 		}
 	};
 
-	const { getRootProps, getInputProps } = useDropzone({ onDrop});
+	const { getRootProps, getInputProps } = useDropzone({
+		onDrop, accept: {
+			'application/x-tar': ['.mapeosettings', '.tar'],
+		}
+	});
 
 	return (
 		<div {...getRootProps()} className="w-full p-3 py-36 border border-gray-500 border-dashed">

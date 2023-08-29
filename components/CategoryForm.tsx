@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useDropzone } from 'react-dropzone';
 interface CategoryFormProps {
 	id?: string;
 	slug?: string;
@@ -44,7 +45,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 		}
 	}, [icon, name, color, sort, createNew]);
 
-	const clearForm = () => {
+	const clearForm = (e) => {
+		e.preventDefault()
 		if (createNew) {
 			setFormState({ icon: '', name: '', color: '', sort: 0 });
 		} else {
@@ -61,8 +63,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 		});
 	};
 
-	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files ? event.target.files[0] : null
+	const handleFileChange = (file: File) => {
 		/** File validation */
 		if (!file?.name.endsWith('.svg')) {
 			alert("Please select a valid .svg file");
@@ -103,6 +104,18 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 			setUploading(false);
 		}
 	};
+	// Inside your component
+	const { getRootProps, getInputProps } = useDropzone({
+		accept: {
+			'image/svg+xml': ['.svg'],
+		},
+		onDrop: (acceptedFiles) => {
+			handleFileChange(acceptedFiles[0]);
+		},
+		maxFiles: 1,
+	});
+
+
 
 	return (
 		<form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md md:w-full h-screen md:h-auto">
@@ -114,32 +127,21 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 				</button>
 			</div>
 			<div className="mb-4">
-				<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="icon">
-					Icon
-				</label>
-				<div className="flex justify-center mb-4">
-					<div className="rounded-full border-4 h-36 w-36" style={{ borderColor: formState.color }}>
+				<div {...getRootProps()} className="flex justify-center mb-4 p-2 border-dashed border-2 flex-col items-center h-full cursor-pointer">
+					<input {...getInputProps()} />
+					<div className="rounded-full border-4 h-36 w-36 flex items-center justify-center" style={{ borderColor: formState.color }}>
 						{iconFile ? (
 							<img src={URL.createObjectURL(iconFile)} alt="Icon Preview" className="p-4" />
 						) : iconPath ? (
 							<img src={iconPath} alt="Icon Preview" className="p-4" />
 						) : (
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="p-4">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2L2 7l10 5 10-5-10-5z" />
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2 17l10 5 10-5" />
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2 12l10 5 10-5" />
-							</svg>
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-[45px] w-[45px] animate-bounce">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+								</svg>
 						)}
 					</div>
+					<p className="text-xs text-center mt-2">Click or drop SVG files here</p>
 				</div>
-				<input
-					className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-					id="icon"
-					type="file"
-					name="icon"
-					accept=".svg"
-					onChange={handleFileChange}
-				/>
 			</div>
 			<div className="mb-4">
 				<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
