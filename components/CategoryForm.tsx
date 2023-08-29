@@ -29,6 +29,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 	createNew = false
 }) => { // Added onCancel prop and default values
 	const [uploading, setUploading] = useState(false);
+	const [showIconFinder, setShowIconFinder] = useState(false); // New state variable
 
 	const [formState, setFormState] = useState({
 		icon,
@@ -141,6 +142,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 						)}
 					</div>
 					<p className="text-xs text-center mt-2">Click or drop SVG files here</p>
+					<button onClick={() => setShowIconFinder(true)} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+						Search icons
+					</button>
 				</div>
 			</div>
 			<div className="mb-4">
