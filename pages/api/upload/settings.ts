@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import fetch from "node-fetch";
+import fs from "fs";
 import { parseForm, FormidableError } from "../../../lib/parse-form";
 import {   desconstructPresets,
   desconstructSvgSprite,
@@ -19,14 +21,21 @@ const handler = async (
     error: string | null;
   }>
 ) => {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    res.status(405).json({
-      data: { id: null },
-      error: "Method Not Allowed",
-    });
-    return;
-  }
+  if (req.method === "GET") {
+    try {
+      const response = await fetch("https://api.github.com/repos/digidem/mapeo-default-config/releases/latest");
+      const data = await response.json();
+      const mapeoSettingsUrl = data.assets.find((asset: any) => asset.name === ".mapeosettings").browser_download_url;
+      const fileResponse = await fetch(mapeoSettingsUrl);
+      const buffer = await fileResponse.buffer();
+      fs.writeFileSync("/tmp/.mapeosettings", buffer);
+      res.status(200).json({ fileUrl: "/tmp/.mapeosettings" });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else if (req.method === "POST") {
+    res.setHeader("Allow", ["GET", "POST"]);
   // Just after the "Method Not Allowed" code
   try {
     const { fields, files } = await parseForm(req);
