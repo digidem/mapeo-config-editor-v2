@@ -115,7 +115,7 @@ const MapeoRender = ({ id }) => {
 			<div className="flex flex-col md:flex-row">
 				<div className={styles.phoneouterframe}>
 					<div className={styles.phoneframe}>
-						<div className={styles.categorygrid}>
+						<div className={`${styles.categorygrid} ${styles.scrollbar}`}>
 							{presets && presets.length === 0 && <span className={styles.verticalcenter}>Loading...</span>}
 							{presets && presets.map((preset: Preset, index: number) => (
 								<div key={`${preset.slug}-${index}`} className={styles.categorycontainer}>
@@ -131,7 +131,7 @@ const MapeoRender = ({ id }) => {
 										<img
 											src={preset.iconPath}
 											alt={preset.name}
-											style={{ maxWidth: '35px', height: '35px' }}
+											style={{ maxWidth: '33px', height: '33px' }}
 										/>
 									</div>
 									<div className={styles.iconname}>{preset.name}</div>

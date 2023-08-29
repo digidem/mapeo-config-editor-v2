@@ -27,7 +27,7 @@ const Home: FC = () => {
 			<div className="w-full max-w-3xl px-3 mx-auto">
 				<div className="flex items-center justify-center flex-col pb-24">
 					<img src="/mapeo.png" alt="Mapeo Icon" className="mr-3 mb-3" />
-					<h1 className="text-3xl font-bold text-gray-900">
+					<h1 className="text-3xl text-center font-bold text-gray-900">
 						Mapeo Configuration Editor
 					</h1>
 				</div>

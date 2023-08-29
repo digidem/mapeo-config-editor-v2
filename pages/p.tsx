@@ -44,13 +44,15 @@ const Project = () => {
 	return (
 		<div className="flex items-center justify-center min-h-screen bg-blue-900">
 			<Head>
-        <title>{name || 'Config'}</title>
-        <meta name="description" content={version || 'v0.0.1'} />
-      </Head>
+				<title>{name || 'Config'}</title>
+				<meta name="description" content={version || 'v0.0.1'} />
+			</Head>
 			{isChecked && <div className="flex flex-col items-center justify-center">
-				<div className="flex flex-col sm:flex-row text-center sm:text-left items-center justify-center text-white pb-4 w-[300px]">
-					<img src="/mapeo.png" alt="Mapeo logo" className="mr-4" style={{ width: '45px' }} />
-					<h1 className="text-4xl mr-4">{name}</h1>
+				<div className="flex flex-col text-center sm:text-left items-center justify-center text-white pb-4 w-full">
+					<div className="flex flex-col sm:flex-row items-center justify-center">
+						<img src="/mapeo.png" alt="Mapeo logo" className="mr-4" style={{ width: '45px' }} />
+						<h1 className="text-4xl mr-4">{name}</h1>
+					</div>
 					<h2 className="text-caption">{version}</h2>
 				</div>
 				<MapeoRender id={id || ''} />
