@@ -47,7 +47,6 @@ const SingleFileUploadForm = () => {
 
 			const id = data?.id
 			router.push(`/p?id=${id}`)
-			setUploading(false);
 		} catch (error) {
 			console.error(error);
 			alert("Sorry! something went wrong.");
