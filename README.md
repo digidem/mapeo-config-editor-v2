@@ -20,6 +20,11 @@ This project serves as a configuration editor for [Mapeo](https://mapeo.app/), a
 6. Click on the "Build" button to create the updated configuration.
 7. Once the build is complete, click on the "Download Build" button to download the updated configuration.
 
-## TODOs
+### With docker
+To run the Mapeo Configuration Editor using Docker, execute the following command:
 
-- **Configuration Editing Functionality**: The application currently only supports viewing the configuration, not editing it. This is a crucial feature that needs to be implemented for the application to be fully functional.
+```
+docker run -v /tmp/configs:/tmp/uploads -p 3000:3000 communityfirst/mapeo-config-editor
+```
+
+Open [localhost:3000](http://localhost:3000) in the browser to navigate the app. The configs will be built to the `/tmp/configs` folder.
