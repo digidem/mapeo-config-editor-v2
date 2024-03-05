@@ -57,13 +57,6 @@ const IconFinder: React.FC<IconFinderProps> = ({ term, onCancel, onSave, baseUrl
 		await fetchIcons(true)
 	};
 	const uniqueIcons = Array.from(new Set(icons));
-	// const colorFilter = useMemo(() => {
-	// 	const filter = colorize(color);
-	// 	return filter;
-	// }, [color]);
-	// const filterStyle = colorize('#ff0000'); // replace '#ff0000' with your desired color
-	// const filterString = filterStyle && `brightness(${filterStyle.brightness}) contrast(${filterStyle.contrast}) hue-rotate(${filterStyle.hueRotate}) invert(${filterStyle.invert}) saturate(${filterStyle.saturate}) sepia(${filterStyle.sepia})`;
-	// console.log('FILTER (not working)', filterString)
 	return (
 		<form onSubmit={(e) => {
 			e.preventDefault()
@@ -80,7 +73,7 @@ const IconFinder: React.FC<IconFinderProps> = ({ term, onCancel, onSave, baseUrl
 				<div className={`${styles.scrollbar} overflow-y-scroll max-h-[500px] grid grid-cols-2 sm:grid-cols-3 gap-4 w-full items-center justify-center`}>
 					{(!loading && !error) && uniqueIcons.map((icon, index) => (
 						<div onClick={() => setSelectedIcon(icon)} key={index} className={`cursor-pointer flex flex-col items-center justify-center border-4 sm:h-[120px] rounded-full`} style={{ borderColor: icon === selectedIcon ? color : 'white' }}>
-							<Image width={30} height={30} unoptimized src={icon} alt="Icon" className="w-24 h-24 p-3 m-auto" style={{...filterStyle}} />
+							<Image width={30} height={30} unoptimized src={icon} alt="Icon" className="w-24 h-24 p-3 m-auto" />
 						</div>
 					))}
 				</div>
