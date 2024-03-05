@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { SearchIcon } from "./Icons"
 import styles from './styles.module.css'
-// import colorize from '../lib/colorize'
+import colorize from '../lib/colorize.js'
 
 interface IconFinderProps {
 	term: string;
@@ -61,9 +61,7 @@ const IconFinder: React.FC<IconFinderProps> = ({ term, onCancel, onSave, baseUrl
 	// 	const filter = colorize(color);
 	// 	return filter;
 	// }, [color]);
-	// const filterStyle = colorize('#ff0000'); // replace '#ff0000' with your desired color
-	// const filterString = filterStyle && `brightness(${filterStyle.brightness}) contrast(${filterStyle.contrast}) hue-rotate(${filterStyle.hueRotate}) invert(${filterStyle.invert}) saturate(${filterStyle.saturate}) sepia(${filterStyle.sepia})`;
-	// console.log('FILTER (not working)', filterString)
+	const filterStyle = colorize(color); // replace '#ff0000' with your desired color
 	return (
 		<form onSubmit={(e) => {
 			e.preventDefault()
