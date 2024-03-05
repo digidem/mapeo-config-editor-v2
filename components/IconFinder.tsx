@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import { SearchIcon } from "./Icons"
 import styles from './styles.module.css'
 // import colorize from '../lib/colorize'
@@ -79,7 +80,7 @@ const IconFinder: React.FC<IconFinderProps> = ({ term, onCancel, onSave, baseUrl
 				<div className={`${styles.scrollbar} overflow-y-scroll max-h-[500px] grid grid-cols-2 sm:grid-cols-3 gap-4 w-full items-center justify-center`}>
 					{(!loading && !error) && uniqueIcons.map((icon, index) => (
 						<div onClick={() => setSelectedIcon(icon)} key={index} className={`cursor-pointer flex flex-col items-center justify-center border-4 sm:h-[120px] rounded-full`} style={{ borderColor: icon === selectedIcon ? color : 'white' }}>
-							<img src={icon} alt="Icon" className="w-24 h-24 p-3 m-auto" />
+							<Image width={30} height={30} unoptimized src={icon} alt="Icon" className="w-24 h-24 p-3 m-auto" style={{...filterStyle}} />
 						</div>
 					))}
 				</div>
