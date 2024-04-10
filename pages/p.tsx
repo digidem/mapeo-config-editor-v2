@@ -29,7 +29,7 @@ const Project = () => {
 			}
 		}
 		checkBuild()
-	}, [id])
+	}, [id, router])
 	const reset = () => router.push('/')
 	const build = async () => {
 		setIsLoading(true)

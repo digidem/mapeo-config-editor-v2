@@ -7718,10 +7718,10 @@ mapeo-config-deconstructor@^2.0.6:
     tar "^6.1.15"
     xml2js "^0.6.2"
 
-mapeo-config-renderer@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/mapeo-config-renderer/-/mapeo-config-renderer-1.0.3.tgz#8b935be29cbda520652935ec2a19e9a284236851"
-  integrity sha512-5AodeHVgX1kAyxyuDQYNahSoDHyrL3ytIaN3eSq2WtPyFNhQva/vJ+ZKo3FgYBlzXR0ixxTBUIGvKHfWzJf/8A==
+mapeo-config-renderer@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mapeo-config-renderer/-/mapeo-config-renderer-1.0.4.tgz#db3d8a183cf586a4c2ed9ecf4f635c02b7c04578"
+  integrity sha512-7Lxk9A2+M+lGVOGog+kzbe637Uxa5yOmEAKhCsjsn0293X9P5Frr0PNp+EixO9zJqApmPE/fnNAhf3q00+YuqA==
   dependencies:
     "@testing-library/jest-dom" "^5.17.0"
     "@testing-library/react" "^13.4.0"

@@ -16,6 +16,9 @@ interface ResponseData {
 	id: string | null;
 }
 
+const defaultConfigUrl = "https://api.github.com/repos/digidem/mapeo-default-config/releases/latest"
+const backupConfigUrl = `https://github.com/digidem/mapeo-default-config/releases/download/v3.6.1/mapeo-default-settings-v3.6.1.mapeosettings`
+
 const handler = async (
 	req: NextApiRequest,
 	res: NextApiResponse<{
@@ -25,10 +28,26 @@ const handler = async (
 ) => {
 	let fileUrl
 	if (req.method === "GET") {
+		const configUrl = process.env.DEFAULT_CONFIG_URL
 		try {
-			const response = await fetch("https://api.github.com/repos/digidem/mapeo-default-config/releases/latest");
-			const data = await response.json();
-			const mapeoSettingsUrl = data.assets.find((asset: any) => asset.name.endsWith(".mapeosettings")).browser_download_url;
+			let mapeoSettingsUrl
+			if (configUrl) {
+				mapeoSettingsUrl = configUrl
+			} else {
+				try {
+					const response = await fetch(defaultConfigUrl);
+					const data = await response.json({
+						headers: {
+							'Authorization': process.env.GITHUB_TOKEN,
+						}
+					});
+					console.log('data', data);
+					mapeoSettingsUrl = data.assets.find((asset: any) => asset.name.endsWith(".mapeosettings")).browser_download_url;
+				} catch (err) {
+					console.error(`Got error when fetching latest default config from ${defaultConfigUrl}:`, err);
+					mapeoSettingsUrl = backupConfigUrl
+				}
+			}
 			const fileResponse = await fetch(mapeoSettingsUrl);
 			const buffer = await fileResponse.buffer();
 			const filename = `/tmp/${crypto.randomBytes(16).toString("hex")}.mapeosettings`;
@@ -39,7 +58,6 @@ const handler = async (
 			res.status(500).json({ data: { id: null }, error: "Internal Server Error" });
 		}
 	} else if (req.method === "POST") {
-	
 		try {
 			const { fields, files } = await parseForm(req);
 			const file = files.media;
@@ -82,7 +100,6 @@ const handler = async (
 		}
 	}
 };
-
 
 export const config = {
 	api: {

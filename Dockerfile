@@ -42,6 +42,7 @@ RUN yarn deploy
 
 ENV NODE_ENV production
 ENV ROOT_DIR /tmp
+ENV DEFAULT_CONFIG_URL https://github.com/digidem/mapeo-default-config/releases/download/v3.6.1/mapeo-default-settings-v3.6.1.mapeosettings
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
