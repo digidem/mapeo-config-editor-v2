@@ -31,14 +31,14 @@ const Build: NextPage = () => {
 	return (
 		<div>
 			<Head>
-        <title>{name || 'Config'}</title>
-        <meta name="description" content={version || 'v0.0.1'} />
-      </Head>
+				<title>{name || 'Config'}</title>
+				<meta name="description" content={version || 'v0.0.1'} />
+			</Head>
 
 			<div className="w-full max-w-3xl px-3 mx-auto mt-12">
 				<div className="flex flex-col items-center justify-center space-y-10 bg-gray-100 p-5 rounded-lg py-48">
 					<main className="space-y-12 flex flex-col items-center justify-center">
-						<img src="/mapeo.png" alt="Mapeo logo" className="mx-auto"/>
+						<img src="/mapeo.png" alt="Mapeo logo" className="mx-auto" />
 						<h2 className="text-4xl font-bold text-center">{name}</h2>
 						<p className="text-lg text-gray-500 text-center">{version}</p>
 						{build ?
@@ -72,7 +72,7 @@ const Build: NextPage = () => {
 			</div>
 			<footer>
 				<div className="w-full max-w-3xl px-3 mx-auto">
-					<p>Digital Democracy 2023</p>
+					<p>Awana Digital {new Date().getFullYear()}</p>
 				</div>
 			</footer>
 
