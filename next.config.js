@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+	buildModules: [
+		'@nuxtjs/pwa',
+	],
+	pwa: {
+		icon: {
+			source: 'public/mapeo.png',
+		}
+	},
+	reactStrictMode: true,
 	output: 'standalone',
 	images: {
     remotePatterns: [
