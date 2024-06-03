@@ -20,12 +20,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Get the Ref
+        id: get-ref
+        uses: ankitvgupta/ref-to-tag-action@master
+        with:
+          ref: ${{ github.ref }}
+          head_ref: ${{ github.head_ref }}
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
           platforms: linux/amd64, linux/arm64
-          tags: communityfirst/mapeo-config-editor:${{ github.event.pull_request.head.ref }}
+          tags: communityfirst/mapeo-config-editor:${{ steps.get-ref.outputs.tag }}
+
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
         with:
