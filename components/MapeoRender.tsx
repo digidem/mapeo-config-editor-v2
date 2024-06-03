@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import styles from './styles.module.css';
 import CategoryModal from './CategoryModal';
 
@@ -128,10 +129,11 @@ const MapeoRender = ({ id }) => {
 										}}
 										onClick={() => { setSelectedPreset(preset); setIsOpen(true); }}
 									>
-										<img
+										<Image
+											width={33}
+											height={33}
 											src={preset.iconPath}
 											alt={preset.name}
-											style={{ maxWidth: '33px', height: '33px' }}
 										/>
 									</div>
 									<div className={styles.iconname}>{preset.name}</div>
