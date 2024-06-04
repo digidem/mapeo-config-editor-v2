@@ -16,7 +16,7 @@ const Index: NextPage = () => {
 
 			<footer>
 				<div className="w-full max-w-3xl px-3 mx-auto">
-					<p>Awana Digital {new Date().getFullYear()}</p>
+					<p>Awana Digital {new Date().getFullYear()} - Version {process.env.NEXT_PUBLIC_APP_VERSION}</p>
 				</div>
 			</footer>
 		</div>
