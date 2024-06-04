@@ -1,9 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from 'path'
-const settingsBuilder = require('mapeo-settings-builder/commands/build_lint.js') as (options: { output: string }, outputDir: string) => Promise<void>;
+// const settingsBuilder = require('mapeo-settings-builder/commands/build_lint.js') as (options: { output: string }, outputDir: string) => Promise<void>;
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import getOutputDir from "../../../lib/getOutputDir";
 import generateDefault from "../../../lib/generateDefault"
 import fs from 'fs'
+
+const execAsync = promisify(exec);
+
+async function runShellCommand(command: string) {
+    try {
+        const { stdout, stderr } = await execAsync(command);
+        if (stderr) {
+            console.error(`Error: ${stderr}`);
+        }
+        return stdout;
+    } catch (error) {
+        console.error(`Execution failed: ${error}`);
+        throw error;
+    }
+}
+
 
 function bumpVersion(version: string, bumpType: 'major' | 'minor' | 'patch' = 'patch') {
 	let versionParts = version.split('.');
@@ -68,7 +86,8 @@ const handler = async (
 			fs.writeFileSync(path.join(outputDir, 'metadata.json'), JSON.stringify(metadata, null, 2), 'utf8');
 			// update defaults
 			await generateDefault(outputDir)
-			const build = await settingsBuilder({ output: outputFile }, outputDir)
+			// const build = await settingsBuilder({ output: outputFile }, outputDir)
+			runShellCommand(`cd ${outputDir} && mapeo-settings-builder build --output ${outputFile}`)
 		} catch (err) {
 			console.error(err)
 		}
