@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-		"deploy": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/"
+    "deploy": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
