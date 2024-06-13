@@ -9,6 +9,7 @@ interface CategoryFormProps {
 	name?: string;
 	color?: string;
 	iconPath?: string;
+	fields?: string[];
 	sort?: number;
 	createNew?: boolean;
 	onSave: (data: { icon: string, name: string, color: string, sort: number }) => void;
@@ -24,6 +25,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 	color = '',
 	sort = 0,
 	iconPath,
+	fields = [],
 	onSave,
 	onDelete,
 	onCreate,
@@ -209,6 +211,51 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 							onChange={handleChange}
 						/>
 					</div>
+					<div className="pt-2 pb-6">
+						<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="sort">
+							Fields
+						</label>
+
+						{fields.length > 0 &&
+							<div className='py-4 flex items-center justify-between'>
+								{fields.map((field, index) => (
+									<div key={index} className='relative'>
+										<button
+											type="button"
+											className="absolute -top-4 -right-3 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+											onClick={() => handleDeleteField(index)}
+										>
+											x
+										</button>
+										<span className='p-2 border border-gray-400'>
+											{field.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+										</span>
+									</div>
+								))}
+							</div>}
+						<div>
+							<select className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="field-select">
+								{fields.map((field, index) => (
+									<option key={index} value={field}>
+										{field.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+									</option>
+								))}
+							</select>
+
+						</div>
+						<div className='pt-4 flex items-center justify-between'>
+							<button className="bg-green-500 w-[120px] hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+								Add field
+							</button>
+							<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+								Edit field
+							</button>
+							<button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+								Delete field
+							</button>
+						</div>
+					</div>
+					<hr className='my-4' />
 					<div className="flex items-center justify-between">
 						{!createNew && <button onClick={onDelete} className="w-[120px] bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={uploading}>
 							Delete
