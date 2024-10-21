@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "adm-zip": "^0.5.16",
     "date-fns": "^2.30.0",
     "formidable": "2.x",
     "mapeo-config-deconstructor": "^2.0.6",
