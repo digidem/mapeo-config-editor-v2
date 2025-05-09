@@ -66,8 +66,10 @@ const handler = async (
 		}
 	} else if (req.method === "POST") {
 		try {
+			// Parse the form with formidable v3.x
 			const { files } = await parseForm(req);
 			const file = files.media;
+			console.log("Media file:", file);
 
 			// Check if file exists before accessing it
 			if (!file) {
@@ -76,14 +78,30 @@ const handler = async (
 
 			// In formidable v3.x, file.filepath is the correct property to access
 			if (Array.isArray(file)) {
-				fileUrl = file.map((f: any) => f.filepath);
+				fileUrl = file.map((f: any) => {
+					console.log("File item:", f);
+					console.log("File path:", f.filepath);
+					return f.filepath;
+				});
 			} else {
+				console.log("File is a single object");
+				console.log("File path:", (file as any).filepath);
 				fileUrl = (file as any).filepath;
 			}
-			console.log("Uploaded file:", fileUrl);
+			console.log("Final fileUrl value:", fileUrl);
+
+			// Validate fileUrl before proceeding
+			if (Array.isArray(fileUrl) && fileUrl.length === 0) {
+				throw new Error("No valid file paths found in uploaded files");
+			}
+
+			if (!fileUrl) {
+				throw new Error("No valid file path found in uploaded file");
+			}
 		} catch (e) {
-			console.error(e);
-			res.status(500).json({ data: { id: null }, error: "Internal Server Error" });
+			console.error("Error in POST handler:", e);
+			res.status(500).json({ data: { id: null }, error: e instanceof Error ? e.message : "Internal Server Error" });
+			return; // Return early to prevent further processing
 		}
 	} else {
 		res.setHeader("Allow", ["GET", "POST"]);
@@ -97,18 +115,25 @@ const handler = async (
 			throw new Error("No file URL provided");
 		}
 
-		const { outputDir, projectId } = getOutputDir(undefined)
+		const { outputDir, projectId } = getOutputDir(undefined);
+
+		// Handle the case where fileUrl is an array
+		const singleFileUrl = Array.isArray(fileUrl) ? fileUrl[0] : fileUrl;
+
+		console.log("Using file path for extraction:", singleFileUrl);
+
 		const { configFolder, outputFolder } = await extractConfig(
-			fileUrl,
+			singleFileUrl, // Always pass a single string path
 			outputDir
 		);
+
 		await desconstructPresets(configFolder, outputFolder);
 		await desconstructSvgSprite(configFolder, outputFolder);
 		await copyFiles(configFolder, outputFolder);
 		await createPackageJson(configFolder, outputFolder);
 		console.log("Done!");
 
-		// Clean up the temporary file
+		// Clean up the temporary file(s)
 		if (typeof fileUrl === 'string') {
 			fs.unlinkSync(fileUrl);
 		} else if (Array.isArray(fileUrl)) {

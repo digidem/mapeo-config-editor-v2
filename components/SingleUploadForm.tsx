@@ -37,7 +37,6 @@ const SingleFileUploadForm = () => {
 			let responseText;
 			try {
 				responseText = await res.text();
-				console.log("Raw response:", responseText);
 
 				const {
 					data,
