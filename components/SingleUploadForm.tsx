@@ -26,29 +26,43 @@ const SingleFileUploadForm = () => {
 			var formData = new FormData();
 			formData.append("media", file);
 
+			console.log("Sending file upload request...");
 			const res = await fetch("/api/upload/settings", {
 				method: "POST",
 				body: formData,
 			});
 
-			const {
-				data,
-				error,
-			}: {
-				data: {
-					id: string | string[];
-				} | null;
-				error: string | null;
-			} = await res.json();
+			console.log("Response status:", res.status);
 
-			if (error || !data) {
-				alert(error || "Sorry! something went wrong.");
+			let responseText;
+			try {
+				responseText = await res.text();
+				console.log("Raw response:", responseText);
+
+				const {
+					data,
+					error,
+				}: {
+					data: {
+						id: string | string[];
+					} | null;
+					error: string | null;
+				} = JSON.parse(responseText);
+
+				if (error || !data) {
+					alert(error || "Sorry! something went wrong.");
+					setUploading(false);
+					return;
+				}
+
+				const id = data?.id
+				router.push(`/p?id=${id}`)
+			} catch (parseError) {
+				console.error("Error parsing JSON response:", parseError);
+				alert("Error parsing server response. Check console for details.");
 				setUploading(false);
 				return;
 			}
-
-			const id = data?.id
-			router.push(`/p?id=${id}`)
 		} catch (error) {
 			console.error(error);
 			alert("Sorry! something went wrong.");

@@ -40,6 +40,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 		sort,
 	});
 	const [iconFile, setIconFile] = useState<File | null>(null);
+
 	useEffect(() => {
 		if (createNew) {
 			setFormState({ icon: '', name: '', color: '', sort: 0 });

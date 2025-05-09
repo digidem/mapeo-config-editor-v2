@@ -11,9 +11,20 @@ import {
 } from 'mapeo-config-deconstructor/src/'
 import getOutputDir from "../../../lib/getOutputDir";
 import crypto from 'crypto';
+import formidable from "formidable";
 
 interface ResponseData {
 	id: string | null;
+}
+
+// Define the File type from formidable
+interface FormidableFile {
+	filepath: string;
+	originalFilename: string | null;
+	newFilename: string | null;
+	mimetype: string | null;
+	size: number;
+	[key: string]: any;
 }
 
 const defaultConfigUrl = "https://api.github.com/repos/digidem/mapeo-default-config/releases/latest"
@@ -26,42 +37,50 @@ const handler = async (
 		error: string | null;
 	}>
 ) => {
-	let fileUrl
+	let fileUrl: string | string[] | undefined;
 	if (req.method === "GET") {
 		const configUrl = process.env.DEFAULT_CONFIG_URL
 		try {
-			let mapeoSettingsUrl
+			let mapeoSettingsUrl: string;
 			if (configUrl) {
-				mapeoSettingsUrl = configUrl
+				mapeoSettingsUrl = configUrl;
 			} else {
 				try {
 					const response = await fetch(defaultConfigUrl);
-					const data = await response.json({
-						headers: {
-							'Authorization': process.env.GITHUB_TOKEN,
-						}
-					});
+					const data = await response.json() as any;
 					console.log('data', data);
 					mapeoSettingsUrl = data.assets.find((asset: any) => asset.name.endsWith(".mapeosettings")).browser_download_url;
 				} catch (err) {
 					console.error(`Got error when fetching latest default config from ${defaultConfigUrl}:`, err);
-					mapeoSettingsUrl = backupConfigUrl
+					mapeoSettingsUrl = backupConfigUrl;
 				}
 			}
 			const fileResponse = await fetch(mapeoSettingsUrl);
 			const buffer = await fileResponse.buffer();
 			const filename = `/tmp/${crypto.randomBytes(16).toString("hex")}.mapeosettings`;
 			fs.writeFileSync(filename, buffer);
-			fileUrl = filename
+			fileUrl = filename;
 		} catch (e) {
 			console.error(e);
 			res.status(500).json({ data: { id: null }, error: "Internal Server Error" });
 		}
 	} else if (req.method === "POST") {
 		try {
-			const { fields, files } = await parseForm(req);
+			const { files } = await parseForm(req);
 			const file = files.media;
-			fileUrl = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
+
+			// Check if file exists before accessing it
+			if (!file) {
+				throw new Error("No file uploaded with field name 'media'");
+			}
+
+			// In formidable v3.x, file.filepath is the correct property to access
+			if (Array.isArray(file)) {
+				fileUrl = file.map((f: any) => f.filepath);
+			} else {
+				fileUrl = (file as any).filepath;
+			}
+			console.log("Uploaded file:", fileUrl);
 		} catch (e) {
 			console.error(e);
 			res.status(500).json({ data: { id: null }, error: "Internal Server Error" });
@@ -74,6 +93,10 @@ const handler = async (
 		});
 	}
 	try {
+		if (!fileUrl) {
+			throw new Error("No file URL provided");
+		}
+
 		const { outputDir, projectId } = getOutputDir(undefined)
 		const { configFolder, outputFolder } = await extractConfig(
 			fileUrl,
@@ -84,7 +107,14 @@ const handler = async (
 		await copyFiles(configFolder, outputFolder);
 		await createPackageJson(configFolder, outputFolder);
 		console.log("Done!");
-		fs.unlinkSync(fileUrl);
+
+		// Clean up the temporary file
+		if (typeof fileUrl === 'string') {
+			fs.unlinkSync(fileUrl);
+		} else if (Array.isArray(fileUrl)) {
+			fileUrl.forEach(url => fs.unlinkSync(url));
+		}
+
 		res.status(200).json({
 			data: {
 				id: projectId || null,
@@ -92,11 +122,19 @@ const handler = async (
 			error: null,
 		});
 	} catch (e) {
-		if (e instanceof FormidableError) {
-			res.status(e.httpCode || 400).json({ data: { id: null }, error: e.message });
+		console.error(e);
+		// Check if error is from formidable
+		if (e instanceof Error && 'httpCode' in e) {
+			const formError = e as Error & { httpCode?: number };
+			res.status(formError.httpCode || 400).json({
+				data: { id: null },
+				error: formError.message
+			});
 		} else {
-			console.error(e);
-			res.status(500).json({ data: { id: null }, error: "Internal Server Error" });
+			res.status(500).json({
+				data: { id: null },
+				error: e instanceof Error ? e.message : "Internal Server Error"
+			});
 		}
 	}
 };
