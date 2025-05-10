@@ -1,9 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { parseForm, FormidableError } from "../../../../lib/parse-form";
+import { parseForm } from "../../../../lib/parse-form";
 import getOutputDir from "../../../../lib/getOutputDir";
 import crypto from 'crypto';
+import formidable from "formidable";
+import fs from 'fs';
 
-import fs from 'fs'
+// Define the FormidableFile type for TypeScript
+interface FormidableFile {
+  filepath: string;
+  originalFilename: string | null;
+  newFilename: string | null;
+  mimetype: string | null;
+  size: number;
+  [key: string]: any;
+}
+
 const ResponseData = {
 	icon: String || null
 }
@@ -41,14 +52,34 @@ const handler = async (
 	const newFilePath100 = `${iconsDir}/${uuid}-100px.svg`;
 	const newFilePath24 = `${iconsDir}/${uuid}-24px.svg`;
 	try {
-		let fileUrl
+		let fileUrl: string;
 		if (Object.keys(files).length > 0) {
-			const file = files.icon
-			fileUrl = Array.isArray(file) ? file[0]?.filepath : file?.filepath
+			// Cast the file to our FormidableFile type
+			const file = files.icon as FormidableFile | FormidableFile[] | undefined;
+
+			if (!file) {
+				throw new Error("No icon file uploaded");
+			}
+
+			// Handle both single file and array of files
+			if (Array.isArray(file)) {
+				if (file.length === 0) {
+					throw new Error("Empty file array");
+				}
+				fileUrl = file[0].filepath;
+			} else {
+				fileUrl = file.filepath;
+			}
+
+			// Make sure fileUrl is defined
+			if (!fileUrl) {
+				throw new Error("File path is undefined");
+			}
+
 			await fs.promises.copyFile(fileUrl, newFilePath100);
 			await fs.promises.copyFile(fileUrl, newFilePath24);
 		} else {
-			const file: string | string[] = fields.icon
+			const file: string | string[] = fields.icon as string | string[];
 			const fileData = Array.isArray(file) ? file[0].split(',')[1] : file.split(',')[1];
 			const decodedFileData = decodeURIComponent(fileData);
 			const buffer = Buffer.from(decodedFileData, 'utf8');
@@ -62,11 +93,20 @@ const handler = async (
 			error: null,
 		});
 	} catch (e) {
-		if (e instanceof FormidableError) {
-			res.status(e.httpCode || 400).json({ data: { icon: null }, error: e.message });
+		console.error("Error in icon upload:", e);
+
+		// Check if error is from formidable
+		if (e instanceof Error && 'httpCode' in e) {
+			const formError = e as Error & { httpCode?: number };
+			res.status(formError.httpCode || 400).json({
+				data: { icon: null },
+				error: formError.message
+			});
 		} else {
-			console.error(e);
-			res.status(500).json({ data: { icon: null }, error: "Internal Server Error" });
+			res.status(500).json({
+				data: { icon: null },
+				error: e instanceof Error ? e.message : "Internal Server Error"
+			});
 		}
 	}
 };
